@@ -17,6 +17,8 @@ import { loginSchema } from "@/validation/userSchema";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 
+import api from "@/lib/axios";
+
 export function LoginForm({
   className,
   ...props
@@ -69,8 +71,18 @@ export function LoginForm({
         return;
       }
 
-      console.log(data);
-      router.push("/home");
+      try {
+        await api.post("/redis", {
+          user: data.user,
+          session: data.session,
+        });
+        router.push("/home");
+      } catch (redisError) {
+        console.error(redisError);
+        setErrors({
+          auth: "Login succeeded, but we could not sync your session data.",
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -83,7 +95,7 @@ export function LoginForm({
       {...props}
     >
       <FieldGroup>
-        <div className="flex flex-col items-center gap-1 text-center">
+        <div className="flex flex-col items-center gap-1 text-center ">
           <h1 className="text-2xl font-bold">Login to your account</h1>
           <p className="text-sm text-balance text-muted-foreground">
             Enter your email below to login to your account

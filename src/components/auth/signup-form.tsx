@@ -125,10 +125,6 @@ export function SignupForm({
           {errors.email && (
             <p className="text-red-500 text-sm">{errors.email[0]}</p>
           )}
-          <FieldDescription>
-            We&apos;ll use this to contact you. We will not share your email
-            with anyone else.
-          </FieldDescription>
         </Field>
 
         <Field>
@@ -145,9 +141,6 @@ export function SignupForm({
           {errors.password && (
             <p className="text-red-500 text-sm">{errors.password[0]}</p>
           )}
-          <FieldDescription>
-            Must be at least 8 characters long.
-          </FieldDescription>
         </Field>
 
         <Field>
@@ -161,7 +154,7 @@ export function SignupForm({
             value={formData.confirmPassword}
             onChange={handleChange}
           />
-          <FieldDescription>Please confirm your password.</FieldDescription>
+        
         </Field>
 
         <Field>
