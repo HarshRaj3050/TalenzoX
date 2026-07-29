@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { LoginForm } from "@/components/login-form"
+import { LoginForm } from "@/components/auth/login-form"
 import { GalleryVerticalEndIcon } from "lucide-react"
 import { siteConfig } from "@/config/site";
 
