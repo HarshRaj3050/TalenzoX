@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { LoginForm } from "@/components/auth/login-form"
-import { GalleryVerticalEndIcon } from "lucide-react"
+import { GalleryVerticalEndIcon } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
 import { Button } from "@/components/ui/button";
@@ -18,6 +17,8 @@ import {
 } from "@/components/ui/field";
 import { cn } from "@/lib/utils";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
+
+import { MarqueeDemo } from "@/components/ui/marquee-demo";
 
 interface ResetPasswordFormProps {
   className?: string;
@@ -35,6 +36,44 @@ export default function ResetPasswordForm({
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
+  useEffect(() => {
+    let active = true;
+
+    const checkSession = async () => {
+      const {
+        data: { session },
+        error,
+      } = await supabase.auth.getSession();
+
+      if (!active) {
+        return;
+      }
+
+      if (error || !session) {
+        setMessage(
+          "Your password reset link is invalid or has expired. Please request a new one.",
+        );
+      }
+    };
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "PASSWORD_RECOVERY" || event === "SIGNED_IN") {
+        if (session) {
+          setMessage("");
+        }
+      }
+    });
+
+    void checkSession();
+
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
+  }, [supabase]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -51,6 +90,19 @@ export default function ResetPasswordForm({
     }
 
     setLoading(true);
+
+    const {
+      data: { session },
+      error: sessionError,
+    } = await supabase.auth.getSession();
+
+    if (sessionError || !session) {
+      setLoading(false);
+      setMessage(
+        "Your password reset link is invalid or has expired. Please request a new one.",
+      );
+      return;
+    }
 
     const { error } = await supabase.auth.updateUser({
       password,
@@ -71,7 +123,7 @@ export default function ResetPasswordForm({
   };
 
   return (
-    <div className="grid min-h-svh lg:grid-cols-2">
+    <div className="grid min-h-svh lg:grid-cols-[45%_55%]">
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
           <a
@@ -150,7 +202,41 @@ export default function ResetPasswordForm({
           </div>
         </div>
       </div>
-      <div className="relative hidden bg-muted lg:block">{/* right box */}</div>
+      <div className="relative hidden bg-muted lg:block">
+        {/* right box */}
+
+        <div className="relative hidden overflow-hidden lg:block">
+          {/* Background */}
+          <div className="relative h-dvh w-full bg-blue-700">
+            <div
+              className="absolute inset-0"
+              style={{
+                background: `
+                radial-gradient(ellipse 80% 60% at 70% 20%, rgba(90,70,200,0.85), transparent 70%),
+                radial-gradient(ellipse 70% 60% at 20% 80%, rgba(40,120,220,0.75), transparent 70%),
+                radial-gradient(ellipse 65% 55% at 60% 65%, rgba(0,180,255,0.55), transparent 70%),
+                radial-gradient(ellipse 65% 40% at 50% 60%, rgba(180,60,200,0.45), transparent 70%),
+                linear-gradient(180deg, #0f172a 0%, #1e3a8a 100%)
+              `,
+              }}
+            />
+
+            {/* Heading */}
+            <div className="absolute left-1/2 top-[35%] w-full -translate-x-1/2 -translate-y-1/2 px-8">
+              <h1 className="text-center font-sora text-[58px] font-bold leading-tight tracking-wide text-white/80">
+                “Action Today,
+                <br />
+                <span>Success Tomorrow.”</span>
+              </h1>
+            </div>
+
+            {/* Bottom Marquee */}
+            <div className="absolute bottom-2 w-full">
+              <MarqueeDemo />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

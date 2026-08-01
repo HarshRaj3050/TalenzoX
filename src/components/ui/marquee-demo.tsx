@@ -7,37 +7,37 @@ const reviews = [
     name: "Loreal",
     username: "@loreal_fredz",
     body: "Actually I love this platform offers so much of features to use.",
-    img: "/a1.png",
+    img: "/file.svg",
   },
   {
     name: "Genny",
     username: "@Genny-097",
     body: "Just found wonderful mentorship platform. thats amazing!",
-    img: "a2.png",
+    img: "/globe.svg",
   },
   {
     name: "John",
     username: "@john",
     body: "The platform is so easy to use. I love it.",
-    img: "/a6.png",
+    img: "/next.svg",
   },
   {
     name: "Jenny",
     username: "@jenny",
     body: "i just got internship by using this platform. I love it.",
-    img: "/a3.png",
+    img: "/vercel.svg",
   },
   {
     name: "Marta",
     username: "@marta",
     body: "alumni connect and mentor support, i used this while preparing for my competitive exams",
-    img: "/a4.png",
+    img: "/window.svg",
   },
   {
     name: "James",
     username: "@james",
     body: "clario is so easy to use, fun and amazing. i must recomened this platform",
-    img: "/a5.png",
+    img: "/file.svg",
   },
 ];
 
@@ -64,7 +64,14 @@ const ReviewCard = ({
       )}
     >
       <div className="flex flex-row items-center gap-2 text-black">
-        <img className="rounded-full" width="30" height="30" alt="" src={img} />
+        <img
+          className="rounded-full"
+          width="30"
+          height="30"
+          alt=""
+          src={img}
+          loading="lazy"
+        />
         <div className="flex flex-col">
           <figcaption className="text-sm font-medium font-inter">
             {name}

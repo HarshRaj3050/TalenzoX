@@ -10,7 +10,6 @@ function parseRedisValue(value: unknown) {
       return value;
     }
   }
-
   return value;
 }
 
@@ -34,7 +33,7 @@ export async function GET() {
   }
 
   const { data: profile, error } = await supabase
-    .from("profiles")
+    .from("user")
     .select("*")
     .eq("id", user.id)
     .maybeSingle();

@@ -34,6 +34,7 @@ export function SignupForm({
     name?: string[];
     email?: string[];
     password?: string[];
+    confirmPassword?: string[];
   }>({});
 
   const supabase = getSupabaseBrowserClient();
@@ -70,8 +71,26 @@ export function SignupForm({
     });
 
     if (error) {
-      console.error(error.message);
+      console.error(error);
+      setLoading(false);
       return;
+    }
+
+    // Insert into your user table
+    const userId = data?.user?.id;
+    if (userId) {
+      const { error: insertError } = await supabase.from("user").insert([
+        {
+          auth_uid: userId,
+          name: result.data.name,
+          email: result.data.email,
+          onGoingProcess: false,
+        },
+      ] as never);
+
+      if (insertError) {
+        console.error(insertError);
+      }
     }
 
     console.log("Signed up:", data);
@@ -154,7 +173,6 @@ export function SignupForm({
             value={formData.confirmPassword}
             onChange={handleChange}
           />
-        
         </Field>
 
         <Field>
