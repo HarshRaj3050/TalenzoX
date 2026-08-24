@@ -17,6 +17,7 @@ import {
 import { cn } from "@/lib/utils";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import { MarqueeDemo } from "@/components/ui/marquee-demo";
+import { useRouter } from "next/navigation";
 
 interface ForgotPasswordFormProps {
   className?: string;
@@ -30,6 +31,8 @@ export default function ForgotPasswordForm({
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,6 +50,9 @@ export default function ForgotPasswordForm({
       setMessage(
         `We've sent you a password reset link. Please check your email.`,
       );
+      setTimeout(() => {
+        router.push("/auth/login");
+      }, 5000);
     }
 
     setLoading(false);
@@ -77,8 +83,8 @@ export default function ForgotPasswordForm({
                   <h1 className="text-2xl font-bold">Forgot your password?</h1>
 
                   <p className="text-sm text-balance text-muted-foreground">
-                    Enter your email address and we will send you a link to reset
-                    your password.
+                    Enter your email address and we will send you a link to
+                    reset your password.
                   </p>
                 </div>
 
@@ -102,7 +108,7 @@ export default function ForgotPasswordForm({
                 )}
 
                 <Field>
-                  <Button type="submit" disabled={loading}>
+                  <Button type="submit" disabled={loading} className="cursor-pointer">
                     {loading ? "Sending..." : "Send Reset Link"}
                   </Button>
                 </Field>
@@ -124,38 +130,36 @@ export default function ForgotPasswordForm({
       <div className="relative hidden bg-muted lg:block">
         {/* right box */}
         <div className="relative hidden overflow-hidden lg:block">
-        {/* Background */}
-        <div className="relative h-dvh w-full bg-blue-700">
-          <div
-            className="absolute inset-0"
-            style={{
-              background: `
+          {/* Background */}
+          <div className="relative h-dvh w-full bg-blue-700">
+            <div
+              className="absolute inset-0"
+              style={{
+                background: `
                 radial-gradient(ellipse 80% 60% at 70% 20%, rgba(90,70,200,0.85), transparent 70%),
                 radial-gradient(ellipse 70% 60% at 20% 80%, rgba(40,120,220,0.75), transparent 70%),
                 radial-gradient(ellipse 65% 55% at 60% 65%, rgba(0,180,255,0.55), transparent 70%),
                 radial-gradient(ellipse 65% 40% at 50% 60%, rgba(180,60,200,0.45), transparent 70%),
                 linear-gradient(180deg, #0f172a 0%, #1e3a8a 100%)
               `,
-            }}
-          />
+              }}
+            />
 
+            {/* Heading */}
+            <div className="absolute left-1/2 top-[35%] w-full -translate-x-1/2 -translate-y-1/2 px-8">
+              <h1 className="text-center font-sora text-[58px] font-bold leading-tight tracking-wide text-white/80">
+                “Action Today,
+                <br />
+                <span>Success Tomorrow.”</span>
+              </h1>
+            </div>
 
-          {/* Heading */}
-          <div className="absolute left-1/2 top-[35%] w-full -translate-x-1/2 -translate-y-1/2 px-8">
-            <h1 className="text-center font-sora text-[58px] font-bold leading-tight tracking-wide text-white/80">
-              “Action Today,
-              <br />
-              <span>Success Tomorrow.”</span>
-            </h1>
-          </div>
-
-          {/* Bottom Marquee */}
-          <div className="absolute bottom-2 w-full">
-            <MarqueeDemo />
+            {/* Bottom Marquee */}
+            <div className="absolute bottom-2 w-full">
+              <MarqueeDemo />
+            </div>
           </div>
         </div>
-      </div>
-
       </div>
     </div>
   );

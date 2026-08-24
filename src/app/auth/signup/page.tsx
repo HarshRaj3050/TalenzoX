@@ -9,7 +9,7 @@ export default function SignupPage() {
   return (
     <div className="grid h-svh overflow-hidden lg:grid-cols-[45%_55%]">
       {/* Left Side */}
-      <div className="flex h-full flex-col gap-4 overflow-y-auto p-6 md:p-10 scrollbar-hide">
+      <div className="flex h-full flex-col gap-4 overflow-y-auto p-6 md:p-10 scrollbar-hide bg-[#FAF9F6]">
         <div className="flex justify-center gap-2 md:justify-start">
           <a href={siteConfig.url} className="flex items-center gap-2 font-medium">
             <div className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">

@@ -37,7 +37,7 @@ const data = {
         <AudioLinesIcon
         />
       ),
-      plan: "Startup",
+      plan: "TalenzoX",
     },
     {
       name: "Evil Corp.",

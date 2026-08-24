@@ -7,13 +7,13 @@ import { MarqueeDemo } from "@/components/ui/marquee-demo";
 
 export default function LoginPage() {
   return (
-    <div className="grid min-h-svh bg-[#0d0f14] lg:grid-cols-[45%_55%]">
+    <div className="grid min-h-svh lg:grid-cols-[45%_55%]">
       {/* Left Side */}
-      <div className="relative flex flex-col gap-4 bg-[#0d0f14] p-6 md:p-10">
+      <div className="relative flex flex-col gap-4 p-6 md:p-10 bg-[#FAF9F6]">
         <div className="flex justify-center gap-2 md:justify-start">
           <a
             href={siteConfig.url}
-            className="flex items-center gap-2 font-medium text-white"
+            className="flex items-center gap-2 font-medium text-black"
           >
             <div className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
               <GalleryVerticalEndIcon className="size-4" />

@@ -28,7 +28,7 @@ export default function Page() {
 
   const handleSendMessage = async () => {
     try {
-      const response = await api.post("/ai-assistant/createConversation", {
+      const response = await api.post("/ai-assistant/agentResponse", {
         value
       });
 
@@ -71,7 +71,7 @@ export default function Page() {
           </div>
           <div className="h-[18%]  relative">
             <div className="absolute bottom-5 left-1/2 -translate-x-1/2 w-full max-w-4xl px-4">
-              <div className="flex items-end gap-2 rounded-4xl bg-[#1a1a1a] px-4 ">
+              <div className="flex items-end gap-2 rounded-4xl bg-[#e4eeff] px-4 ">
                 <span className="mb-1.5 hover:bg-gray-900 p-2 rounded-2xl">
                   <AiOutlinePlus size={20} />
                 </span>

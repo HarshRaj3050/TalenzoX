@@ -96,7 +96,7 @@ export function LoginForm({
     >
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center ">
-          <h1 className="text-2xl font-bold">Login to your account</h1>
+          <h1 className="text-2xl font-bold ">Login to your account</h1>
           <p className="text-sm text-balance text-muted-foreground">
             Enter your email below to login to your account
           </p>
@@ -144,22 +144,22 @@ export function LoginForm({
         </Field>
 
         <Field>
-          <Button type="submit" disabled={loading}>
+          <Button type="submit" disabled={loading} className="cursor-pointer">
             {loading ? "Sending..." : "Login"}
           </Button>
         </Field>
 
-        <FieldSeparator>Or continue with</FieldSeparator>
+        <FieldSeparator >Or continue with</FieldSeparator>
 
         <Field>
-          <Button variant="outline" type="button">
+          <Button variant="outline" type="button" className="cursor-pointer">
             <FcGoogle />
             Login with Google
           </Button>
 
           <FieldDescription className="text-center">
             Don&apos;t have an account?{" "}
-            <Link href="/auth/signup" className="underline underline-offset-4">
+            <Link href="/auth/signup" className="underline underline-offset-4 corsor-pointer">
               Sign up
             </Link>
           </FieldDescription>
