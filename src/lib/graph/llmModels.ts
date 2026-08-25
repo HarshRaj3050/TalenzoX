@@ -5,8 +5,8 @@ const groq = new ChatGroq({
     apiKey: process.env.GROQ_API_KEY,
     model: "openai/gpt-oss-120b",
     temperature: 0,
-    maxTokens: 2048,
-    maxRetries: 2,
+    maxTokens: 1024,
+    maxRetries: 0,
 })
 
 /* 

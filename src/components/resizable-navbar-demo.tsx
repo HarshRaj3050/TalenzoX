@@ -13,6 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import { siteConfig } from "@/config/site";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
+import Demo from "@/components/demo";
 
 export default function NavbarDemo() {
   const navItems = [
@@ -51,10 +52,7 @@ export default function NavbarDemo() {
     </NavbarButton>
   ) : (
     <>
-      <NavbarButton
-        href={`${siteConfig.url}/auth/login`}
-        variant="secondary"
-      >
+      <NavbarButton href={`${siteConfig.url}/auth/login`} variant="secondary">
         Login
       </NavbarButton>
       <NavbarButton href={`${siteConfig.url}/auth/signup`} variant="primary">
@@ -136,21 +134,24 @@ export default function NavbarDemo() {
 
 const DummyContent = () => {
   return (
-    <div className="container mx-auto p-8 pt-24">
-      <div className="h-screen flex justify-center">
-        <h1 className="text-[7vw] w-2/3 font-extrabold leading-none pt-50 text-center">
-          Where classrooms become communities
-        </h1>
+    <>
+      <div className="h-dvh"></div>
+
+      <div className="container mx-auto p-8 ">
+        <div className="h-screen flex justify-center items-center flex-col">
+          <h1 className="md:text-8xl text-[2.50rem] lg:w-[60%] w-full font-extrabold leading-none text-center">
+            Education Beyond The Textbook
+          </h1>
+          <h3 className="md:text-3xl text-2xl md:w-1/2 text-center md:mt-10 mt-5">
+            Helping children discover, practice, and apply skills that matter
+            beyond academic achievement.
+          </h3>
+        </div>
+        
       </div>
-      <h1 className="mb-4 text-center text-3xl font-bold">
-        Check the navbar at the top of the container
-      </h1>
-      <p className="mb-10 text-center text-sm text-zinc-500">
-        For demo purpose we have kept the position as{" "}
-        <span className="font-medium">Sticky</span>. Keep in mind that this
-        component is <span className="font-medium">fixed</span> and will not
-        move when scrolling.
-      </p>
-    </div>
+      <div className="h-dvh">
+        <Demo></Demo>
+      </div>
+    </>
   );
 };

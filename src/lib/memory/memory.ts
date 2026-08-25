@@ -114,8 +114,9 @@ async function summarizeMemory(
   previousSummary: MemorySummary,
   messages: MemoryMessage[],
 ): Promise<MemorySummary> {
-  const llm = await getModel("chat");
-  const response = await llm.invoke([
+  try {
+    const llm = await getModel("chat");
+    const response = await llm.invoke([
     new SystemMessage(
       "You maintain long-term assistant memory. Return JSON matching this schema exactly: " +
         '{"userProfile":"string","goals":["string"],"preferences":["string"],"importantFacts":["string"],"openQuestions":["string"]}. ' +
@@ -125,7 +126,7 @@ async function summarizeMemory(
     new HumanMessage(
       JSON.stringify({ previousSummary, newMessages: messages }, null, 2),
     ),
-  ]);
+    ]);
 
   const content =
     typeof response.content === "string"
@@ -141,7 +142,11 @@ async function summarizeMemory(
     }
   }
 
-  return parsed?.success ? parsed.data : previousSummary;
+    return parsed?.success ? parsed.data : previousSummary;
+  } catch (error) {
+    console.error("Memory summary skipped:", error);
+    return previousSummary;
+  }
 }
 
 export async function saveConversationTurn({

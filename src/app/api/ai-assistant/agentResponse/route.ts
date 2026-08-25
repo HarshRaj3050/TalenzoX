@@ -81,6 +81,12 @@ export async function POST(req: NextRequest) {
         { status: 413 },
       );
     }
+    if (status === 429) {
+      return NextResponse.json(
+        { message: "The AI service is temporarily rate-limited. Please try again in a few seconds." },
+        { status: 429 },
+      );
+    }
     const message = error instanceof Error ? error.message : String(error);
     return NextResponse.json({
       message: `agent controller error: ${message}`,

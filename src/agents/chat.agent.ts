@@ -8,14 +8,14 @@ export const chatAgent = async (state: any) => {
   const userPrompt = typeof state?.prompt === "string" ? state.prompt.slice(0, 6000) : "";
 
   const searchContext = state?.searchResults?.length
-    ? `Web Search Result: ${JSON.stringify(state.searchResults).slice(0, 6000)} Answer the user using only the above search results.`
+    ? `Web Search Result: ${JSON.stringify(state.searchResults).slice(0, 4000)} Answer the user using only the above search results.`
     : "";
   const memoryContext = state?.memorySummary
-    ? `Long-term memory (use only when relevant): ${JSON.stringify(state.memorySummary).slice(0, 3000)}`
+    ? `Long-term memory (use only when relevant): ${JSON.stringify(state.memorySummary).slice(0, 2000)}`
     : "";
   const recentConversation = Array.isArray(state?.recentMessages)
-    ? state.recentMessages.slice(-6)
-        .map((message: { role: string; content: string }) => `${message.role}: ${message.content.slice(0, 1000)}`)
+    ? state.recentMessages.slice(-4)
+      .map((message: { role: string; content: string }) => `${message.role}: ${message.content.slice(0, 600)}`)
         .join("\n")
     : "";
 
