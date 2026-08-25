@@ -28,7 +28,6 @@ import {
 
 export default function Page() {
   const [user, setUser] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
@@ -46,10 +45,6 @@ export default function Page() {
         if (isMounted) {
           setUser(null);
         }
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
       }
     };
 
@@ -65,10 +60,6 @@ export default function Page() {
       console.log("Home page User from state:", user);
     }
   }, [user]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <SidebarProvider>
