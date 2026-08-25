@@ -20,7 +20,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { getSupabaseBrowserClient } from "@/lib/supabase/client"
 import { ChevronsUpDownIcon, SparklesIcon, BadgeCheckIcon, CreditCardIcon, BellIcon, LogOutIcon } from "lucide-react"
+import { useState } from "react"
 
 export function NavUser({
   user,
@@ -32,6 +34,23 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true)
+
+    const supabase = getSupabaseBrowserClient()
+    const { error } = await supabase.auth.signOut({ scope: "local" })
+
+    if (error) {
+      console.error("Logout failed:", error)
+      setIsLoggingOut(false)
+      return
+    }
+
+    window.location.replace("/")
+  }
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -98,10 +117,13 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              disabled={isLoggingOut}
+              onClick={handleLogout}
+            >
               <LogOutIcon
               />
-              Log out
+              {isLoggingOut ? "Logging out..." : "Log out"}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

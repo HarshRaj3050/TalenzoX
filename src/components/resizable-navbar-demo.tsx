@@ -10,49 +10,68 @@ import {
   MobileNavToggle,
   MobileNavMenu,
 } from "@/components/ui/resizable-navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { siteConfig } from "@/config/site";
+import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 export default function NavbarDemo() {
   const navItems = [
-    {
-      name: "Features",
-      link: "#features",
-    },
-    {
-      name: "Pricing",
-      link: "#pricing",
-    },
-    {
-      name: "Contact",
-      link: "#contact",
-    },
+    { name: "Features", link: "features" },
+    { name: "Pricing", link: "pricing" },
+    { name: "Contact", link: "contact" },
   ];
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const supabase = getSupabaseBrowserClient();
+
+    const loadSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      setIsAuthenticated(Boolean(session));
+    };
+
+    void loadSession();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthenticated(Boolean(session));
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const authLinks = isAuthenticated ? (
+    <NavbarButton href={`${siteConfig.url}/home`} variant="primary">
+      Dashboard
+    </NavbarButton>
+  ) : (
+    <>
+      <NavbarButton
+        href={`${siteConfig.url}/auth/login`}
+        variant="secondary"
+      >
+        Login
+      </NavbarButton>
+      <NavbarButton href={`${siteConfig.url}/auth/signup`} variant="primary">
+        SignUp
+      </NavbarButton>
+    </>
+  );
 
   return (
     <div className="relative w-full">
       <Navbar>
-        {/* Desktop Navigation */}
         <NavBody>
           <NavbarLogo />
           <NavItems items={navItems} />
-          <div className="flex items-center gap-4">
-            <NavbarButton
-              href={`${siteConfig.url}/auth/login`}
-              variant="secondary"
-            >
-              Login
-            </NavbarButton>
-
-            <NavbarButton 
-            href={`${siteConfig.url}/auth/signup`}
-            variant="primary">SignUp</NavbarButton>
-          </div>
+          <div className="flex items-center gap-4">{authLinks}</div>
         </NavBody>
 
-        {/* Mobile Navigation */}
         <MobileNav>
           <MobileNavHeader>
             <NavbarLogo />
@@ -77,27 +96,40 @@ export default function NavbarDemo() {
               </a>
             ))}
             <div className="flex w-full flex-col gap-4">
-              <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
-                className="w-full"
-              >
-                Login
-              </NavbarButton>
-              <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
-                className="w-full"
-              >
-                Book a call
-              </NavbarButton>
+              {isAuthenticated ? (
+                <NavbarButton
+                  href={`${siteConfig.url}/home`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  variant="primary"
+                  className="w-full"
+                >
+                  Dashboard
+                </NavbarButton>
+              ) : (
+                <>
+                  <NavbarButton
+                    href={`${siteConfig.url}/auth/login`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    variant="secondary"
+                    className="w-full"
+                  >
+                    Login
+                  </NavbarButton>
+                  <NavbarButton
+                    href={`${siteConfig.url}/auth/signup`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    variant="primary"
+                    className="w-full"
+                  >
+                    SignUp
+                  </NavbarButton>
+                </>
+              )}
             </div>
           </MobileNavMenu>
         </MobileNav>
       </Navbar>
       <DummyContent />
-
-      {/* Navbar */}
     </div>
   );
 }
