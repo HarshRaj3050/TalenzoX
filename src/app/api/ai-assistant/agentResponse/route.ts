@@ -1,4 +1,4 @@
-import { chatAgent } from "@/agents/chat.agent";
+import { graph } from "@/lib/graph/graph";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const result = await chatAgent({
+    const result = await graph.invoke({
       prompt,
       aiResponse: "",
       agent: "chat",
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
       images: [],
     });
 
-    const response = result.aiResponse;
+    const response = typeof result.aiResponse === "string" ? result.aiResponse : "";
 
     console.log("chat answer:", response);
 
@@ -38,11 +38,11 @@ export async function POST(req: NextRequest) {
       images: result.images ?? [],
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
+  } catch (error) {
     console.error("agent controller error:", error);
+    const message = error instanceof Error ? error.message : String(error);
     return NextResponse.json({
-      message: `agent controller error: ${error.message || error}`,
-    });
+      message: `agent controller error: ${message}`,
+    }, { status: 500 });
   }
 }

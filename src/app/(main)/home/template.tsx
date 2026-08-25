@@ -10,7 +10,7 @@ export default function HomeTemplate({ children }: { children: ReactNode }) {
   useEffect(() => {
     const timeout = window.setTimeout(() => {
       setIsReady(true);
-    }, 4500);
+    }, 5000);
 
     return () => window.clearTimeout(timeout);
   }, []);

@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/sidebar";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaArrowUp } from "react-icons/fa6";
-import MessageList from "../_components/MessageList";
+import MessageList, { ChatMessage } from "../_components/MessageList";
 import { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import api from "@/lib/axios";
@@ -25,19 +25,37 @@ import api from "@/lib/axios";
 
 export default function Page() {
   const [value, setValue] = useState("");
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   const handleSendMessage = async () => {
+    const prompt = value.trim();
+    if (!prompt) return;
+
+    setMessages((currentMessages) => [
+      ...currentMessages,
+      { role: "user", content: prompt },
+    ]);
+    setValue("");
+
     try {
       const response = await api.post("/ai-assistant/agentResponse", {
-        value
+        value: prompt,
       });
 
-      console.log(response.data);
+      const { answer, images } = response.data as {
+        answer?: string;
+        images?: string[];
+      };
+
+      if (answer?.trim()) {
+        setMessages((currentMessages) => [
+          ...currentMessages,
+          { role: "assistant", content: answer, images },
+        ]);
+      }
     } catch (error) {
       console.error(error);
     }
-    
-    setValue("");
   };
 
   return (
@@ -65,12 +83,12 @@ export default function Page() {
           </div>
         </header>
 
-        <div className="h-full flex flex-col">
-          <div className="h-[79%] overflow-hidden">
-            <MessageList />
+        <div className="flex h-[calc(100dvh-4rem)] min-h-0 flex-col">
+          <div className="min-h-0 flex-1 overflow-hidden">
+            <MessageList messages={messages} />
           </div>
-          <div className="h-[18%]  relative">
-            <div className="absolute bottom-5 left-1/2 -translate-x-1/2 w-full max-w-4xl px-4">
+          <div className="sticky bottom-0 shrink-0 bg-white pb-5 pt-2">
+            <div className="mx-auto w-full max-w-4xl px-4">
               <div className="flex items-end gap-2 rounded-4xl bg-[#e4eeff] px-4 ">
                 <span className="mb-1.5 hover:bg-gray-900 p-2 rounded-2xl">
                   <AiOutlinePlus size={20} />

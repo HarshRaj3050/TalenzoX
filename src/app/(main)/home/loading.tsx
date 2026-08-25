@@ -3,6 +3,7 @@ import { MultiStepLoader as Loader } from "@/components/ui/multi-step-loader";
 
 const loadingStates = [
   { text: "Loading your dashboard" },
+  { text: "Agent are ready to connect"},
   { text: "Preparing your workspace" },
   { text: "Almost ready" },
 ];
@@ -13,7 +14,7 @@ export default function Loading() {
       <Loader
         loadingStates={loadingStates}
         loading
-        duration={1500}
+        duration={1200}
         loop={false}
       />
     </div>

@@ -22,7 +22,8 @@ export const router = async (state: { prompt: string }) => {
             latest information,
             news,
             recent developments,
-            internet lookup.
+            internet lookup,
+            also if LLM is know the answer you can search and give me answer.
 
         Return ONLY one word:
 
