@@ -88,6 +88,28 @@ export function LoginForm({
     }
   };
 
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    setErrors({});
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?next=/home`,
+      },
+    });
+
+    if (error) {
+      setErrors({ auth: error.message });
+      setLoading(false);
+      return;
+    }
+
+    if (data.url) {
+      window.location.assign(data.url);
+    }
+  };
+
   return (
     <form
       className={cn("flex flex-col gap-6", className)}
@@ -152,7 +174,13 @@ export function LoginForm({
         <FieldSeparator >Or continue with</FieldSeparator>
 
         <Field>
-          <Button variant="outline" type="button" className="cursor-pointer">
+          <Button
+            variant="outline"
+            type="button"
+            disabled={loading}
+            onClick={handleGoogleLogin}
+            className="cursor-pointer"
+          >
             <FcGoogle />
             Login with Google
           </Button>

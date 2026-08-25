@@ -127,6 +127,28 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
     }
   };
 
+  const handleGoogleSignup = async () => {
+    setLoading(true);
+    setServerError("");
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?next=/home`,
+      },
+    });
+
+    if (error) {
+      setServerError(error.message);
+      setLoading(false);
+      return;
+    }
+
+    if (data.url) {
+      window.location.assign(data.url);
+    }
+  };
+
   return (
     <form
       className={cn("flex flex-col gap-6", className)}
@@ -241,6 +263,7 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
             variant="outline"
             type="button"
             disabled={loading}
+            onClick={handleGoogleSignup}
             className="w-full"
           >
             <FcGoogle />
