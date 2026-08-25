@@ -31,7 +31,7 @@ export const router = async (state: { prompt: string }) => {
         search
 
         User Query:
-        ${state.prompt}
+        ${state.prompt.slice(0, 4000)}
     `
 
     const response = await llm.invoke(prompt)

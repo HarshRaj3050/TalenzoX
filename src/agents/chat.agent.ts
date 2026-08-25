@@ -5,15 +5,28 @@ import { getModel } from "../lib/graph/llmModels";
 
 export const chatAgent = async (state: any) => {
   const llm = await getModel("chat");
-  const userPrompt = typeof state?.prompt === "string" ? state.prompt : "";
+  const userPrompt = typeof state?.prompt === "string" ? state.prompt.slice(0, 6000) : "";
 
   const searchContext = state?.searchResults?.length
-    ? `Web Search Result: ${JSON.stringify(state.searchResults)} Answer the user using only the above search results.`
+    ? `Web Search Result: ${JSON.stringify(state.searchResults).slice(0, 6000)} Answer the user using only the above search results.`
+    : "";
+  const memoryContext = state?.memorySummary
+    ? `Long-term memory (use only when relevant): ${JSON.stringify(state.memorySummary).slice(0, 3000)}`
+    : "";
+  const recentConversation = Array.isArray(state?.recentMessages)
+    ? state.recentMessages.slice(-6)
+        .map((message: { role: string; content: string }) => `${message.role}: ${message.content.slice(0, 1000)}`)
+        .join("\n")
     : "";
 
   const systemPrompt = `You are TalenzoX AI, an intelligent AI assistant.
 
   ${searchContext}
+
+  ${memoryContext}
+
+  Recent conversation:
+  ${recentConversation}
 
   if searchContext exists:
   - use search result to answer.

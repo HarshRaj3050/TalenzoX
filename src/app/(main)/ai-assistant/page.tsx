@@ -18,7 +18,7 @@ import {
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaArrowUp } from "react-icons/fa6";
 import MessageList, { ChatMessage } from "../_components/MessageList";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import api from "@/lib/axios";
 
@@ -26,10 +26,19 @@ import api from "@/lib/axios";
 export default function Page() {
   const [value, setValue] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const conversationIdRef = useRef("");
+
+  useEffect(() => {
+    const savedConversationId = window.sessionStorage.getItem("talenzoXConversationId");
+    conversationIdRef.current = savedConversationId ?? crypto.randomUUID();
+  }, []);
 
   const handleSendMessage = async () => {
     const prompt = value.trim();
     if (!prompt) return;
+    const activeConversationId = conversationIdRef.current || crypto.randomUUID();
+    conversationIdRef.current = activeConversationId;
+    window.sessionStorage.setItem("talenzoXConversationId", activeConversationId);
 
     setMessages((currentMessages) => [
       ...currentMessages,
@@ -40,6 +49,7 @@ export default function Page() {
     try {
       const response = await api.post("/ai-assistant/agentResponse", {
         value: prompt,
+        conversationId: activeConversationId,
       });
 
       const { answer, images } = response.data as {
@@ -48,6 +58,9 @@ export default function Page() {
       };
 
       if (answer?.trim()) {
+        if (typeof response.data.conversationId === "string") {
+          conversationIdRef.current = response.data.conversationId;
+        }
         setMessages((currentMessages) => [
           ...currentMessages,
           { role: "assistant", content: answer, images },

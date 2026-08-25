@@ -11,7 +11,7 @@ const messageBubble = ({ role, content, images }: MessageBubbleProps) => {
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
       <div
-        className={`${isUser ? "bg-[#1a1a1a] text-white p-2.5 px-4.5 rounded-full" : "mt-10 mb-10"}`}
+        className={`${isUser ? "bg-[#1a1a1a] text-white p-2.5 px-4.5 rounded-full mb-10" : "mb-10"}`}
       >
         {images.length > 0 && (
           <div className="mb-4 flex flex-wrap gap-3">
