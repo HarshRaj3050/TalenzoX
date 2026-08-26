@@ -81,7 +81,7 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
           data: {
             name: result.data.name,
           },
-          emailRedirectTo: `${window.location.origin}/home`,
+          emailRedirectTo: `${window.location.origin}/user-details`,
         },
       });
 
@@ -134,7 +134,7 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=/home`,
+        redirectTo: `${window.location.origin}/auth/callback?next=/user-details`,
       },
     });
 

@@ -21,6 +21,7 @@ import MessageList, { ChatMessage } from "../_components/MessageList";
 import { useEffect, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import api from "@/lib/axios";
+import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 
 export default function Page() {
@@ -29,8 +30,42 @@ export default function Page() {
   const conversationIdRef = useRef("");
 
   useEffect(() => {
-    const savedConversationId = window.sessionStorage.getItem("talenzoXConversationId");
-    conversationIdRef.current = savedConversationId ?? crypto.randomUUID();
+    let isMounted = true;
+
+    const loadConversation = async () => {
+      const supabase = getSupabaseBrowserClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user || !isMounted) return;
+
+      const storageKey = `talenzoXConversationId:${user.id}`;
+      const savedConversationId =
+        window.sessionStorage.getItem(storageKey) ??
+        window.sessionStorage.getItem("talenzoXConversationId");
+      const conversationId = savedConversationId ?? crypto.randomUUID();
+      conversationIdRef.current = conversationId;
+      window.sessionStorage.setItem(storageKey, conversationId);
+
+      try {
+        const response = await api.get("/ai-assistant/agentResponse", {
+          params: { conversationId },
+        });
+
+        if (isMounted && Array.isArray(response.data?.messages)) {
+          setMessages(response.data.messages as ChatMessage[]);
+        }
+      } catch (error) {
+        console.error("Failed to load conversation memory:", error);
+      }
+    };
+
+    void loadConversation();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleSendMessage = async () => {
@@ -38,7 +73,6 @@ export default function Page() {
     if (!prompt) return;
     const activeConversationId = conversationIdRef.current || crypto.randomUUID();
     conversationIdRef.current = activeConversationId;
-    window.sessionStorage.setItem("talenzoXConversationId", activeConversationId);
 
     setMessages((currentMessages) => [
       ...currentMessages,

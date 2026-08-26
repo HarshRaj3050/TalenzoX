@@ -6,6 +6,38 @@ import {
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
+export async function GET(req: NextRequest) {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  }
+
+  const conversationId = req.nextUrl.searchParams.get("conversationId");
+  if (!conversationId) {
+    return NextResponse.json({ messages: [] });
+  }
+
+  const { data, error } = await supabase
+    .from("chat_messages")
+    .select("role, content")
+    .eq("user_id", user.id)
+    .eq("conversation_id", conversationId)
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    if (error.code === "PGRST205") {
+      return NextResponse.json({ messages: [] });
+    }
+    throw error;
+  }
+
+  return NextResponse.json({ messages: data ?? [] });
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();

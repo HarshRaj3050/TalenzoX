@@ -7,37 +7,37 @@ const reviews = [
     name: "Loreal",
     username: "@loreal_fredz",
     body: "Actually I love this platform offers so much of features to use.",
-    img: "/file.svg",
+    img: "/avatar/pfp1.png",
   },
   {
     name: "Genny",
     username: "@Genny-097",
-    body: "Just found wonderful mentorship platform. thats amazing!",
-    img: "/globe.svg",
+    body: "Just found wonderful skill development platform. thats amazing!",
+    img: "/avatar/pfp2.png",
   },
   {
     name: "John",
     username: "@john",
     body: "The platform is so easy to use. I love it.",
-    img: "/next.svg",
+    img: "/avatar/pfp3.png",
   },
   {
     name: "Jenny",
     username: "@jenny",
-    body: "i just got internship by using this platform. I love it.",
-    img: "/vercel.svg",
+    body: "i got new friend by using this platform. I love it.",
+    img: "/avatar/pfp4.png",
   },
   {
     name: "Marta",
     username: "@marta",
-    body: "alumni connect and mentor support, i used this while preparing for my competitive exams",
-    img: "/window.svg",
+    body: "friend connection and AI support, i used this while preparing for my exams",
+    img: "/avatar/pfp5.png",
   },
   {
     name: "James",
     username: "@james",
-    body: "clario is so easy to use, fun and amazing. i must recomened this platform",
-    img: "/file.svg",
+    body: "TalenzoX is so easy to use, fun and amazing. i must recomened this platform",
+    img: "/avatar/pfp6.png",
   },
 ];
 
@@ -65,7 +65,7 @@ const ReviewCard = ({
     >
       <div className="flex flex-row items-center gap-2 text-black">
         <img
-          className="rounded-full"
+          className="rounded-full object-fill"
           width="30"
           height="30"
           alt=""

@@ -35,7 +35,7 @@ export async function GET() {
   const { data: profile, error } = await supabase
     .from("user")
     .select("*")
-    .eq("id", user.id)
+    .eq("auth_uid", user.id)
     .maybeSingle();
 
   const profileData = profile ?? {

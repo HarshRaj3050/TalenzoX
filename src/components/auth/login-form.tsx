@@ -76,7 +76,11 @@ export function LoginForm({
           user: data.user,
           session: data.session,
         });
-        router.push("/home");
+
+        const { data: profileStatus } = await api.get<{ complete: boolean }>(
+          "/user-details",
+        );
+        router.push(profileStatus.complete ? "/home" : "/user-details");
       } catch (redisError) {
         console.error(redisError);
         setErrors({
@@ -95,7 +99,7 @@ export function LoginForm({
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=/home`,
+        redirectTo: `${window.location.origin}/auth/callback?next=/user-details`,
       },
     });
 
