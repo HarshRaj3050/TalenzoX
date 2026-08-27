@@ -1,4 +1,3 @@
-import { siteConfig } from "@/config/site";
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
@@ -11,25 +10,19 @@ export async function updateSession(request: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
-      cookieOptions: {
-        name: siteConfig.name,
-        path: "/",
-        sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-        httpOnly: false,
-      },
       cookies: {
         getAll() {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => {
+          cookiesToSet.forEach(({ name, value }) => {
             request.cookies.set(name, value);
-            response.cookies.set(name, value, options);
           });
-
           response = NextResponse.next({
             request,
+          });
+          cookiesToSet.forEach(({ name, value, options }) => {
+            response.cookies.set(name, value, options);
           });
         },
       },
@@ -40,3 +33,4 @@ export async function updateSession(request: NextRequest) {
 
   return response;
 }
+

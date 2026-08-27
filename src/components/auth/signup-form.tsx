@@ -98,7 +98,7 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
         return;
       }
 
-      const { error: insertError } = await supabase.from("user").insert([
+      const { error: insertError } = await supabase.from("user_details").insert([
         {
           auth_uid: userId,
           name: result.data.name,

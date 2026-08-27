@@ -81,15 +81,11 @@ const data = {
       ),
       items: [
         {
-          title: "New Chat",
+          title: "AI Chat",
           url: "/ai-assistant",
         },
         {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
+          title: "Schedule Maker",
           url: "#",
         },
       ],

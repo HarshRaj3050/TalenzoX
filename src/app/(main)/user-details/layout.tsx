@@ -16,7 +16,7 @@ export default async function UserDetailsLayout({
   }
 
   const { data: profile } = await supabase
-    .from("user")
+    .from("user_details")
     .select("dob, phone, college, status, focus")
     .eq("auth_uid", user.id)
     .maybeSingle();

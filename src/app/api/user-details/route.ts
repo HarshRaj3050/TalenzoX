@@ -31,7 +31,7 @@ export async function GET() {
   }
 
   const { data: profileData, error } = await supabase
-    .from("user")
+    .from("user_details")
     .select(requiredFields.join(", "))
     .eq("auth_uid", user.id)
     .maybeSingle();
@@ -60,7 +60,10 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const profile = Object.fromEntries(
-      fields.map((field) => [field, body?.[field]?.trim() || null]),
+      fields.map((field) => [
+        field,
+        typeof body?.[field] === "string" ? body[field].trim() || null : null,
+      ]),
     );
 
     if (!profile.dob || !profile.phone || !profile.college || !profile.status || !profile.focus) {
@@ -71,7 +74,7 @@ export async function POST(request: Request) {
     }
 
     const { data: existingProfile, error: lookupError } = await supabase
-      .from("user")
+      .from("user_details")
       .select("id")
       .eq("auth_uid", user.id)
       .maybeSingle();
@@ -79,8 +82,8 @@ export async function POST(request: Request) {
     if (lookupError) throw lookupError;
 
     const query = existingProfile
-      ? supabase.from("user").update(profile).eq("auth_uid", user.id)
-      : supabase.from("user").insert({
+      ? supabase.from("user_details").update(profile).eq("auth_uid", user.id)
+      : supabase.from("user_details").insert({
           ...profile,
           auth_uid: user.id,
           email: user.email ?? null,
@@ -91,7 +94,11 @@ export async function POST(request: Request) {
     const { error: saveError } = await query;
     if (saveError) throw saveError;
 
-    await redis.del(`user:${user.id}`);
+    try {
+      await redis.del(`user:${user.id}`);
+    } catch (redisError) {
+      console.warn("Failed to invalidate Redis user cache:", redisError);
+    }
 
     return NextResponse.json({ ok: true });
   } catch (error) {

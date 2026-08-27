@@ -117,9 +117,16 @@ export default function PersonalizeJourneyForm() {
         invite_email: form.email,
       });
       router.push("/home");
-    } catch (submissionError) {
+    } catch (submissionError: unknown) {
       console.error("User details submission failed:", submissionError);
-      setError("We could not save your details. Please try again.");
+      const serverMsg =
+        typeof submissionError === "object" &&
+        submissionError !== null &&
+        "response" in submissionError &&
+        typeof (submissionError as { response?: { data?: { message?: string } } }).response?.data?.message === "string"
+          ? (submissionError as { response?: { data?: { message?: string } } }).response?.data?.message
+          : null;
+      setError(serverMsg || "We could not save your details. Please try again.");
     } finally {
       setLoading(false);
     }

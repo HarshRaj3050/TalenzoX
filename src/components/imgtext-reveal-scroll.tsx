@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -132,17 +133,18 @@ export const ImageTextReveal: React.FC<ImageTextRevealProps> = ({
 
   return (
     <div
-      className={`relative w-full bg-white text-zinc-900 overflow-x-hidden selection:bg-black selection:text-white cursor-default py-24 md:py-36 ${className}`}
+      className={`relative w-full bg-white text-zinc-900 overflow-x-hidden selection:bg-black selection:text-white cursor-default pb-20 pt-24 md:pt-36 ${className}`}
     >
       {/* FLOATING IMAGE FOLLOWER */}
       <div
         ref={mouseImgRef}
         className={`fixed top-0 left-0 
-          w-[280px] h-[190px]          
-          md:w-[500px] md:h-[330px]    
-          pointer-events-none z-[999] overflow-hidden rounded-2xl 
+          w-70 h-47.5          
+          md:w-125 md:h-82.5    
+          pointer-events-none z-999 overflow-hidden rounded-2xl 
           transition-all duration-300 -translate-x-1/2 -translate-y-1/2 
           shadow-[0_30px_70px_-10px_rgba(0,0,0,0.3)] ring-1 ring-black/10 bg-zinc-100
+          hidden md:block
           ${activeImage ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}
       >
         <img
@@ -189,7 +191,7 @@ export const ImageTextReveal: React.FC<ImageTextRevealProps> = ({
                 <span
                   onMouseEnter={() => setActiveImage(line.image!)}
                   onMouseLeave={() => setActiveImage(null)}
-                  className="img-reveal-span h-11 md:h-24 w-0 rounded-md md:rounded-2xl overflow-hidden relative bg-zinc-200 cursor-pointer shadow-inner shrink-0"
+                  className="img-reveal-span hidden md:inline-flex h-11 md:h-24 w-0 rounded-md md:rounded-2xl overflow-hidden relative bg-zinc-200 cursor-pointer shadow-inner shrink-0"
                 >
                   <img
                     src={line.image}
