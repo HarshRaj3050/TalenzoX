@@ -157,10 +157,10 @@ export const ImageTextReveal: React.FC<ImageTextRevealProps> = ({
         ref={containerRef}
         className="w-full flex flex-col justify-center items-center space-y-3 md:space-y-6 px-0"
       >
-        <h1 className="mb-4 text-center text-3xl font-bold">
+        <h1 className="mb-4 text-center text-5xl font-bold">
           Skills For The Real World
         </h1>
-        <p className="text-center text-lg text-zinc-500">
+        <p className="text-center text-lg text-zinc-500 pb-5">
           We help children build practical skills, confidence, and curiosity
           that go beyond traditional academic learning.
         </p>

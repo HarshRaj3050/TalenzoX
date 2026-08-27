@@ -14,6 +14,15 @@ import { useEffect, useState } from "react";
 import { siteConfig } from "@/config/site";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import Demo from "@/components/demo";
+import Text3DFlip from "@/components/ui/text-3d-flip";
+import ConnectedHero from "@/components/ui/ConnectedHero";
+import { Poppins } from "next/font/google";
+
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 export default function NavbarDemo() {
   const navItems = [
@@ -63,7 +72,7 @@ export default function NavbarDemo() {
 
   return (
     <div className="relative w-full">
-      <Navbar>
+      <Navbar className={poppins.className}>
         <NavBody>
           <NavbarLogo />
           <NavItems items={navItems} />
@@ -135,23 +144,30 @@ export default function NavbarDemo() {
 const DummyContent = () => {
   return (
     <>
-      <div className="h-dvh"></div>
-
-      <div className="container mx-auto p-8 ">
-        <div className="h-screen flex justify-center items-center flex-col">
-          <h1 className="md:text-8xl text-[2.50rem] lg:w-[60%] w-full font-extrabold leading-none text-center">
+      <main>
+        <section className="relative isolate mx-auto min-h-312.5 w-full max-w-7xl overflow-hidden px-4 py-16 mt-[12vh] sm:min-h-[1150px] sm:px-8 md:min-h-[1120px]">
+          <div className="relative z-10 flex flex-col items-center justify-center text-center">
+          <h1 className="md:text-8xl text-[2.50rem] lg:w-[65%] w-full font-extrabold leading-none text-center">
             Education Beyond The Textbook
           </h1>
           <h3 className="md:text-3xl text-2xl md:w-1/2 text-center md:mt-10 mt-5">
-            Helping children discover, practice, and apply skills that matter
-            beyond academic achievement.
+            <Text3DFlip
+              className="bg-background"
+              textClassName="bg-background text-foreground"
+              flipTextClassName="bg-background text-foreground"
+              rotateDirection="top"
+            >
+              Helping children discover, practice, and apply skills that matter
+              beyond academic achievement.
+            </Text3DFlip>
           </h3>
-        </div>
-        
-      </div>
-      <div className="h-dvh">
-        <Demo></Demo>
-      </div>
+          </div>
+          <ConnectedHero />
+        </section>
+        <section className="min-h-dvh mt-[-35vh]">
+          <Demo />
+        </section>
+      </main>
     </>
   );
 };
