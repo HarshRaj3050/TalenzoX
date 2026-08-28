@@ -16,26 +16,23 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  const conversationId = req.nextUrl.searchParams.get("conversationId");
-  if (!conversationId) {
-    return NextResponse.json({ messages: [] });
-  }
+  const conversationId =
+    req.nextUrl.searchParams.get("conversationId") || user.id;
 
   const { data, error } = await supabase
     .from("chat_messages")
     .select("role, content")
     .eq("user_id", user.id)
-    .eq("conversation_id", conversationId)
     .order("created_at", { ascending: true });
 
   if (error) {
     if (error.code === "PGRST205") {
-      return NextResponse.json({ messages: [] });
+      return NextResponse.json({ messages: [], conversationId });
     }
     throw error;
   }
 
-  return NextResponse.json({ messages: data ?? [] });
+  return NextResponse.json({ messages: data ?? [], conversationId });
 }
 
 export async function POST(req: NextRequest) {
@@ -66,9 +63,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const requestedConversationId =
-      typeof body?.conversationId === "string" ? body.conversationId : "";
-    const conversationId = requestedConversationId || crypto.randomUUID();
+    const conversationId = user.id;
     const memory = await loadConversationMemory(user.id, conversationId);
 
     const result = await graph.invoke({

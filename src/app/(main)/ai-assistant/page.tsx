@@ -27,6 +27,7 @@ import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 export default function Page() {
   const [value, setValue] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const conversationIdRef = useRef("");
 
   useEffect(() => {
@@ -40,18 +41,10 @@ export default function Page() {
 
       if (!user || !isMounted) return;
 
-      const storageKey = `talenzoXConversationId:${user.id}`;
-      const savedConversationId =
-        window.sessionStorage.getItem(storageKey) ??
-        window.sessionStorage.getItem("talenzoXConversationId");
-      const conversationId = savedConversationId ?? crypto.randomUUID();
-      conversationIdRef.current = conversationId;
-      window.sessionStorage.setItem(storageKey, conversationId);
+      conversationIdRef.current = user.id;
 
       try {
-        const response = await api.get("/ai-assistant/agentResponse", {
-          params: { conversationId },
-        });
+        const response = await api.get("/ai-assistant/agentResponse");
 
         if (isMounted && Array.isArray(response.data?.messages)) {
           setMessages(response.data.messages as ChatMessage[]);
@@ -70,20 +63,19 @@ export default function Page() {
 
   const handleSendMessage = async () => {
     const prompt = value.trim();
-    if (!prompt) return;
-    const activeConversationId = conversationIdRef.current || crypto.randomUUID();
-    conversationIdRef.current = activeConversationId;
+    if (!prompt || isLoading) return;
 
     setMessages((currentMessages) => [
       ...currentMessages,
       { role: "user", content: prompt },
     ]);
     setValue("");
+    setIsLoading(true);
 
     try {
       const response = await api.post("/ai-assistant/agentResponse", {
         value: prompt,
-        conversationId: activeConversationId,
+        conversationId: conversationIdRef.current || undefined,
       });
 
       const { answer, images } = response.data as {
@@ -101,7 +93,16 @@ export default function Page() {
         ]);
       }
     } catch (error) {
-      console.error(error);
+      console.error("Failed to send message:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      void handleSendMessage();
     }
   };
 
@@ -123,7 +124,7 @@ export default function Page() {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>New Chat</BreadcrumbPage>
+                  <BreadcrumbPage>Chat</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -147,15 +148,18 @@ export default function Page() {
                     minRows={1}
                     maxRows={10}
                     onChange={(e) => setValue(e.target.value)}
+                    onKeyDown={handleKeyDown}
                     value={value}
                     placeholder="Type a message..."
                     className="w-full resize-none rounded-lg  px-3 py-2 text-sm outline-none"
+                    disabled={isLoading}
                   />
                 </div>
 
                 <button
-                  className="mb-2 bg-[#fafafa] text-black p-2 rounded-3xl"
+                  className="mb-2 bg-[#fafafa] text-black p-2 rounded-3xl disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   onClick={handleSendMessage}
+                  disabled={isLoading || !value.trim()}
                 >
                   <FaArrowUp />
                 </button>

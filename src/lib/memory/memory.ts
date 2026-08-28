@@ -77,9 +77,10 @@ function parseMemory(value: unknown): ConversationMemory | null {
 
 export async function loadConversationMemory(
   userId: string,
-  conversationId: string,
+  conversationId: string = userId,
 ): Promise<ConversationMemory> {
-  const key = memoryKey(userId, conversationId);
+  const activeConversationId = conversationId || userId;
+  const key = memoryKey(userId, activeConversationId);
   const cached = parseMemory(await redis.get(key));
   if (cached) return cached;
 
@@ -88,7 +89,7 @@ export async function loadConversationMemory(
     .from("chat_memories")
     .select("summary, recent_messages")
     .eq("user_id", userId)
-    .eq("conversation_id", conversationId)
+    .eq("conversation_id", activeConversationId)
     .maybeSingle();
 
   if (error) {
@@ -101,9 +102,26 @@ export async function loadConversationMemory(
     }
   }
 
+  let memoryData = data;
+
+  // Fallback: If no memory exists yet under activeConversationId, check if any previous memory exists for this user
+  if (!memoryData) {
+    const { data: fallbackData, error: fallbackError } = await supabase
+      .from("chat_memories")
+      .select("summary, recent_messages")
+      .eq("user_id", userId)
+      .order("updated_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (!fallbackError && fallbackData) {
+      memoryData = fallbackData;
+    }
+  }
+
   const memory = parseMemory({
-    summary: data?.summary ?? emptySummary,
-    recentMessages: data?.recent_messages ?? [],
+    summary: memoryData?.summary ?? emptySummary,
+    recentMessages: memoryData?.recent_messages ?? [],
   }) ?? { summary: emptySummary, recentMessages: [] };
 
   await redis.set(key, memory, { ex: redisTtlSeconds });
@@ -151,17 +169,18 @@ async function summarizeMemory(
 
 export async function saveConversationTurn({
   userId,
-  conversationId,
+  conversationId = userId,
   userMessage,
   assistantMessage,
 }: {
   userId: string;
-  conversationId: string;
+  conversationId?: string;
   userMessage: string;
   assistantMessage: string;
   images?: string[];
 }) {
-  const memory = await loadConversationMemory(userId, conversationId);
+  const activeConversationId = conversationId || userId;
+  const memory = await loadConversationMemory(userId, activeConversationId);
   const newMessages: MemoryMessage[] = [
     { role: "user", content: userMessage },
     { role: "assistant", content: assistantMessage },
@@ -176,7 +195,7 @@ export async function saveConversationTurn({
   const { error: messageError } = await supabase.from("chat_messages").insert(
     newMessages.map((message) => ({
       user_id: userId,
-      conversation_id: conversationId,
+      conversation_id: activeConversationId,
       role: message.role,
       content: message.content,
     })),
@@ -186,7 +205,7 @@ export async function saveConversationTurn({
       console.error(
         "Chat message table is missing. Apply supabase/migrations/202608260001_chat_memory.sql.",
       );
-      await redis.set(memoryKey(userId, conversationId), nextMemory, {
+      await redis.set(memoryKey(userId, activeConversationId), nextMemory, {
         ex: redisTtlSeconds,
       });
       return nextMemory;
@@ -197,7 +216,7 @@ export async function saveConversationTurn({
   const { error: memoryError } = await supabase.from("chat_memories").upsert(
     {
       user_id: userId,
-      conversation_id: conversationId,
+      conversation_id: activeConversationId,
       summary,
       recent_messages: recentMessages,
       updated_at: new Date().toISOString(),
@@ -211,7 +230,7 @@ export async function saveConversationTurn({
     );
   }
 
-  await redis.set(memoryKey(userId, conversationId), nextMemory, {
+  await redis.set(memoryKey(userId, activeConversationId), nextMemory, {
     ex: redisTtlSeconds,
   });
 
