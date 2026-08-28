@@ -85,6 +85,10 @@ const data = {
           url: "/ai-assistant",
         },
         {
+          title: "AI Voice Agent",
+          url: "/ai-voice-agent",
+        },
+        {
           title: "Schedule Maker",
           url: "#",
         },
