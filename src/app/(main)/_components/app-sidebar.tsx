@@ -56,7 +56,6 @@ const data = {
         <TerminalSquareIcon
         />
       ),
-      isActive: true,
       items: [
         {
           title: "History",
@@ -95,28 +94,25 @@ const data = {
       ],
     },
     {
-      title: "Documentation",
+      title: "Social Emotional Learning",
       url: "#",
       icon: (
         <BookOpenIcon
         />
       ),
+      isActive: true,
       items: [
         {
-          title: "Introduction",
-          url: "#",
+          title: "Profile",
+          url: "/sel/profile",
         },
         {
-          title: "Get Started",
-          url: "#",
+          title: "Learning",
+          url: "/sel/learning",
         },
         {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
+          title: "Practice",
+          url: "/sel/practice",
         },
       ],
     },
