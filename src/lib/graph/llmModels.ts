@@ -3,7 +3,7 @@ import { ChatGroq } from "@langchain/groq"
 
 const groq = new ChatGroq({
     apiKey: process.env.GROQ_API_KEY,
-    model: "openai/gpt-oss-120b",
+    model: "qwen/qwen3.8-27b",
     temperature: 0,
     maxTokens: 1024,
     maxRetries: 0,

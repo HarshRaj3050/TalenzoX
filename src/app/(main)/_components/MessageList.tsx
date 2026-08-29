@@ -1,6 +1,7 @@
 
 import MessageBubble from "./MessageBubble";
 import { useEffect, useRef } from "react";
+import { VoicePoweredOrb } from "@/app/(main)/ai-assistant/_components/VoicePoweredOrb";
 
 export type ChatMessage = {
   role: "user" | "assistant";
@@ -28,12 +29,27 @@ const MessageList = ({ messages }: MessageListProps) => {
       className="h-full flex flex-col items-center overflow-y-auto px-6 py-6 space-y-5 scrollbar-none [&::-webkit-scrollbar]:hidden"
     >
       {messages.length === 0 ? (
-        <div className="h-full flex flex-col items-center justify-center gap-4 text-center">
-          <div className="flex flex-col gap-1.5">
-            <h1>TalenzoX Agent</h1>
-            <p>How can I help you?</p>
-            <p>
-              Ask me anything - code, ideas, explanations, or just a quick
+        <div className="flex h-full flex-col items-center justify-center gap-6 px-6 text-center">
+          <div className="relative flex h-52 w-52 items-center justify-center overflow-hidden rounded-full bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.45),rgba(255,255,255,0.08)_24%,rgba(15,23,42,0.02)_55%,transparent_80%)] shadow-[0_0_80px_rgba(99,102,241,0.12)] ring-1 ring-white/30 sm:h-64 sm:w-64">
+            <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,_rgba(99,102,241,0.23),_transparent_58%)] blur-2xl" />
+            <div className="relative h-full w-full">
+              <VoicePoweredOrb
+                className="h-full w-full"
+                hue={220}
+                enableVoiceControl={false}
+                maxRotationSpeed={1.1}
+                maxHoverIntensity={0.9}
+              />
+            </div>
+          </div>
+
+          <div className="flex max-w-md flex-col gap-2">
+            <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
+              TalenzoX Agent
+            </h1>
+            <p className="text-base text-slate-600">How can I help you?</p>
+            <p className="text-sm text-slate-500">
+              Ask me anything - news, ideas, explanations, or just a quick
               question.
             </p>
           </div>

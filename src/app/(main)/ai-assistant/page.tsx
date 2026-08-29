@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/sidebar";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaArrowUp } from "react-icons/fa6";
+import { Mic, MicOff } from "lucide-react";
 import MessageList, { ChatMessage } from "../_components/MessageList";
 import { useEffect, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
@@ -28,7 +29,10 @@ export default function Page() {
   const [value, setValue] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
   const conversationIdRef = useRef("");
+  const recognitionRef = useRef<any>(null);
+  const baseTextRef = useRef("");
 
   useEffect(() => {
     let isMounted = true;
@@ -58,12 +62,88 @@ export default function Page() {
 
     return () => {
       isMounted = false;
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.stop();
+        } catch {
+          // Ignore cleanup errors
+        }
+      }
     };
   }, []);
+
+  const toggleListening = () => {
+    if (isListening) {
+      try {
+        recognitionRef.current?.stop();
+      } catch (error) {
+        console.error("Failed to stop recognition:", error);
+      }
+      setIsListening(false);
+      return;
+    }
+
+    const SpeechRecognition =
+      typeof window !== "undefined" &&
+      ((window as any).SpeechRecognition ||
+        (window as any).webkitSpeechRecognition);
+
+    if (!SpeechRecognition) {
+      alert("Speech recognition is not supported in this browser.");
+      return;
+    }
+
+    try {
+      const recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = "en-US";
+
+      baseTextRef.current = value;
+      const prefix = baseTextRef.current
+        ? baseTextRef.current.endsWith(" ")
+          ? baseTextRef.current
+          : `${baseTextRef.current} `
+        : "";
+
+      recognition.onresult = (event: any) => {
+        let currentTranscript = "";
+        for (let i = 0; i < event.results.length; i++) {
+          currentTranscript += event.results[i][0].transcript;
+        }
+        setValue(prefix + currentTranscript);
+      };
+
+      recognition.onerror = (event: any) => {
+        console.error("Speech recognition error:", event.error);
+        setIsListening(false);
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      recognition.start();
+      recognitionRef.current = recognition;
+      setIsListening(true);
+    } catch (error) {
+      console.error("Failed to start speech recognition:", error);
+      setIsListening(false);
+    }
+  };
 
   const handleSendMessage = async () => {
     const prompt = value.trim();
     if (!prompt || isLoading) return;
+
+    if (isListening && recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch {
+        // Ignore stop error
+      }
+      setIsListening(false);
+    }
 
     setMessages((currentMessages) => [
       ...currentMessages,
@@ -151,15 +231,35 @@ export default function Page() {
                     onKeyDown={handleKeyDown}
                     value={value}
                     placeholder="Type a message..."
-                    className="w-full resize-none rounded-lg  px-3 py-2 text-sm outline-none"
+                    className="w-full resize-none rounded-lg px-3 py-2 text-sm outline-none"
                     disabled={isLoading}
                   />
                 </div>
 
+                {/* Mic Option */}
                 <button
-                  className="mb-2 bg-[#fafafa] text-black p-2 rounded-3xl disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  type="button"
+                  onClick={toggleListening}
+                  className={`mb-2 p-2 rounded-3xl cursor-pointer transition-all flex items-center justify-center ${
+                    isListening
+                      ? "bg-red-500 text-white shadow-md animate-pulse ring-2 ring-red-300"
+                      : "bg-[#fafafa] text-zinc-700 hover:bg-gray-200 hover:text-black"
+                  }`}
+                  title={isListening ? "Listening... (click to stop)" : "Voice input"}
+                  aria-label={isListening ? "Stop listening" : "Start voice input"}
+                  disabled={isLoading}
+                >
+                  {isListening ? <MicOff size={16} /> : <Mic size={16} />}
+                </button>
+
+                {/* Send Button */}
+                <button
+                  type="button"
+                  className="mb-2 bg-[#fafafa] text-black p-2 rounded-3xl disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer hover:bg-gray-200 transition-colors"
                   onClick={handleSendMessage}
                   disabled={isLoading || !value.trim()}
+                  title="Send message"
+                  aria-label="Send message"
                 >
                   <FaArrowUp />
                 </button>
