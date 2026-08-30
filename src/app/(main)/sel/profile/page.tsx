@@ -19,6 +19,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import GradientPurpleBackground from "@/components/background/gradient-purple";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import {
@@ -126,9 +127,10 @@ export default function ProfilePage() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
+      <SidebarInset className="relative h-screen max-h-screen overflow-hidden flex flex-col bg-transparent">
+        <GradientPurpleBackground />
         {/* Header */}
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b border-sidebar-border px-4 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+        <header className="relative z-10 flex h-16 shrink-0 items-center gap-2 border-b-2 border-black hover:border-black px-4 bg-white dark:bg-background transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
@@ -151,7 +153,7 @@ export default function ProfilePage() {
         </header>
 
         {/* Content Area */}
-        <main className="flex flex-1 flex-col gap-6 p-6 max-w-6xl w-full mx-auto">
+        <main className="relative z-10 flex flex-1 flex-col overflow-y-auto min-h-0 gap-6 p-6 max-w-6xl w-full mx-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden pb-10">
           {loading ? (
             <div className="space-y-6">
               <div className="space-y-2">
@@ -171,8 +173,8 @@ export default function ProfilePage() {
               {/* Header Title */}
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                    <User className="h-6 w-6" />
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-primary">
+                    <User className="h-6 w-6 bg-white" />
                   </div>
                   <div>
                     <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
@@ -186,7 +188,7 @@ export default function ProfilePage() {
               </div>
 
               {/* Status Banner */}
-              <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 via-primary/5 to-background p-6 sm:p-8">
+              <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-white from-primary/10 via-primary/5 to-background p-6 sm:p-8">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
                   <div className="space-y-2 max-w-2xl">
                     <div className="inline-flex items-center gap-2 rounded-full bg-primary/15 px-3 py-1 text-xs font-semibold text-primary">
