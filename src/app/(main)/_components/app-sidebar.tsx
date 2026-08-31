@@ -117,7 +117,7 @@ const data = {
       ],
     },
     {
-      title: "Settings",
+      title: "Experiment",
       url: "#",
       icon: (
         <Settings2Icon
@@ -125,20 +125,16 @@ const data = {
       ),
       items: [
         {
-          title: "General",
-          url: "#",
+          title: "Profile",
+          url: "/user-details",
         },
         {
-          title: "Team",
-          url: "#",
+          title: "Video Playlist",
+          url: "/experiment/playlist",
         },
         {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
+          title: "Hands-on Experiment",
+          url: "/experiment/hand-on-experiment",
         },
       ],
     },
