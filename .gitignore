@@ -43,3 +43,6 @@ next-env.d.ts
 # database
 /supabase
 /supabase/migrations
+
+# image and video
+/public/video

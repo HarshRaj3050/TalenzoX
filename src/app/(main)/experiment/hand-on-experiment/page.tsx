@@ -20,6 +20,10 @@ import {
 
 export default function Page() {
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedExperiment, setSelectedExperiment] = useState<{
+    title: string;
+    src: string;
+  } | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const iframeContainerRef = useRef<HTMLDivElement | null>(null);
@@ -51,6 +55,10 @@ export default function Page() {
     setIsLoading(true);
     loadingStartedAtRef.current = Date.now();
 
+    if (loadingTimerRef.current) {
+      window.clearTimeout(loadingTimerRef.current);
+    }
+
     const timer = window.setTimeout(() => {
       setIsLoading(false);
       loadingTimerRef.current = null;
@@ -63,7 +71,7 @@ export default function Page() {
         loadingTimerRef.current = null;
       }
     };
-  }, [isOpen]);
+  }, [isOpen, selectedExperiment?.src]);
 
   const finishLoading = () => {
     if (!loadingTimerRef.current) {
@@ -132,11 +140,18 @@ export default function Page() {
               </div>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-2">
               <button
                 type="button"
-                onClick={() => setIsOpen(true)}
-                className="group relative overflow-hidden rounded-3xl border border-violet-200 bg-gradient-to-br from-violet-600 via-indigo-600 to-sky-600 p-[1px] text-left shadow-lg shadow-violet-500/20 transition duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-violet-500/25"
+                onClick={() => {
+                  setSelectedExperiment({
+                    title: "My Solar System",
+                    src: "https://phet.colorado.edu/sims/html/my-solar-system/latest/my-solar-system_en.html",
+                  });
+                  setIsOpen(false);
+                  requestAnimationFrame(() => setIsOpen(true));
+                }}
+                className="group relative overflow-hidden rounded-3xl border border-violet-200 bg-linear-to-br from-violet-600 via-indigo-600 to-sky-600 p-[1px] text-left shadow-lg shadow-violet-500/20 transition duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-violet-500/25"
               >
                 <div className="h-full rounded-[calc(1.5rem-1px)] bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.25),_transparent_45%),linear-gradient(135deg,#0f172a,#111827_40%,#312e81)] p-6">
                   <div className="mb-5 inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.25em] text-violet-100">
@@ -162,6 +177,115 @@ export default function Page() {
                   </div>
                 </div>
               </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedExperiment({
+                    title: "Density",
+                    src: "https://phet.colorado.edu/sims/html/density/latest/density_en.html",
+                  });
+                  setIsOpen(false);
+                  requestAnimationFrame(() => setIsOpen(true));
+                }}
+                className="group relative overflow-hidden rounded-3xl border border-emerald-200 bg-linear-to-br from-emerald-500 via-teal-500 to-cyan-600 p-[1px] text-left shadow-lg shadow-emerald-500/20 transition duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-500/25"
+              >
+                <div className="h-full rounded-[calc(1.5rem-1px)] bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.25),_transparent_45%),linear-gradient(135deg,#042f2e,#0f172a_35%,#0f766e)] p-6">
+                  <div className="mb-5 inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.25em] text-emerald-100">
+                    Chemistry Lab
+                  </div>
+
+                  <h2 className="text-2xl font-semibold text-white">Density</h2>
+                  <p className="mt-3 max-w-md text-sm leading-6 text-slate-200">
+                    Investigate how different materials and liquids behave based
+                    on density and buoyancy.
+                  </p>
+
+                  <div className="mt-6 flex items-center justify-between text-emerald-100">
+                    <span className="font-medium">Open game</span>
+                    <span
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/10 text-lg transition group-hover:translate-x-1"
+                      aria-hidden="true"
+                    >
+                      →
+                    </span>
+                  </div>
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedExperiment({
+                    title: "Gravity and Orbits",
+                    src: "https://phet.colorado.edu/sims/html/gravity-and-orbits/latest/gravity-and-orbits_en.html",
+                  });
+                  setIsOpen(false);
+                  requestAnimationFrame(() => setIsOpen(true));
+                }}
+                className="group relative overflow-hidden rounded-3xl border border-amber-200 bg-linear-to-br from-amber-400 via-orange-500 to-rose-500 p-[1px] text-left shadow-lg shadow-amber-500/20 transition duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-500/25"
+              >
+                <div className="h-full rounded-[calc(1.5rem-1px)] bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.25),_transparent_45%),linear-gradient(135deg,#451a03,#0f172a_35%,#9a5b00)] p-6">
+                  <div className="mb-5 inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.25em] text-amber-100">
+                    Space Lab
+                  </div>
+
+                  <h2 className="text-2xl font-semibold text-white">
+                    Gravity and Orbits
+                  </h2>
+                  <p className="mt-3 max-w-md text-sm leading-6 text-slate-200">
+                    Explore how gravity shapes orbits and planetary motion in a
+                    dynamic space environment.
+                  </p>
+
+                  <div className="mt-6 flex items-center justify-between text-amber-100">
+                    <span className="font-medium">Open game</span>
+                    <span
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/10 text-lg transition group-hover:translate-x-1"
+                      aria-hidden="true"
+                    >
+                      →
+                    </span>
+                  </div>
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedExperiment({
+                    title: "Balancing Act",
+                    src: "https://phet.colorado.edu/sims/html/balancing-act/latest/balancing-act_en.html",
+                  });
+                  setIsOpen(false);
+                  requestAnimationFrame(() => setIsOpen(true));
+                }}
+                className="group relative overflow-hidden rounded-3xl border border-pink-200 bg-linear-to-br from-pink-500 via-fuchsia-500 to-violet-600 p-[1px] text-left shadow-lg shadow-pink-500/20 transition duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-pink-500/25"
+              >
+                <div className="h-full rounded-[calc(1.5rem-1px)] bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.25),_transparent_45%),linear-gradient(135deg,#4c0519,#0f172a_35%,#7e22ce)] p-6">
+                  <div className="mb-5 inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.25em] text-pink-100">
+                    Mechanics Lab
+                  </div>
+
+                  <h2 className="text-2xl font-semibold text-white">
+                    Balancing Act
+                  </h2>
+                  <p className="mt-3 max-w-md text-sm leading-6 text-slate-200">
+                    Test balance, torque, and force using masses and distances in
+                    a hands-on physics challenge.
+                  </p>
+
+                  <div className="mt-6 flex items-center justify-between text-pink-100">
+                    <span className="font-medium">Open game</span>
+                    <span
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/10 text-lg transition group-hover:translate-x-1"
+                      aria-hidden="true"
+                    >
+                      →
+                    </span>
+                  </div>
+                </div>
+              </button>
             </div>
 
             {isOpen && (
@@ -172,7 +296,7 @@ export default function Page() {
                       Experiment
                     </p>
                     <h3 className="mt-1 text-xl font-semibold text-slate-900">
-                      My Solar System
+                      {selectedExperiment?.title ?? "My Solar System"}
                     </h3>
                   </div>
 
@@ -216,12 +340,12 @@ export default function Page() {
                         <p className="font-extrabold text-center text-lg pb-1">TalenzoX</p>
                     </div>
                     <iframe
-                      src="https://phet.colorado.edu/sims/html/my-solar-system/latest/my-solar-system_en.html"
+                      src={selectedExperiment?.src ?? "https://phet.colorado.edu/sims/html/my-solar-system/latest/my-solar-system_en.html"}
                       width="100%"
                       height="620"
                       allow="fullscreen"
                       allowFullScreen
-                      title="My Solar System simulation"
+                      title={selectedExperiment?.title ?? "My Solar System simulation"}
                       className="block w-full h-full rounded-2xl border-0"
                       onLoad={finishLoading}
                     />
