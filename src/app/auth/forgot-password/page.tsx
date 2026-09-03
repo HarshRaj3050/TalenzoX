@@ -1,9 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
 
-import { GalleryVerticalEndIcon } from "lucide-react";
+import { ChevronRight, GalleryVerticalEndIcon } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ import { cn } from "@/lib/utils";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import { MarqueeDemo } from "@/components/ui/marquee-demo";
 import { useRouter } from "next/navigation";
+import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
 
 interface ForgotPasswordFormProps {
   className?: string;
@@ -64,12 +66,13 @@ export default function ForgotPasswordForm({
         <div className="flex justify-center gap-2 md:justify-start">
           <a
             href={siteConfig.url}
-            className="flex items-center gap-2 font-medium"
+            className="flex items-center gap-1.5 font-medium text-black"
           >
-            <div className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <GalleryVerticalEndIcon className="size-4" />
+            <div className="flex size-7 items-center justify-center rounded-md">
+              <img src="/TalenzoX_logo.png" alt="logo" width={35} />
             </div>
-            {siteConfig.name}
+            <span className="text-[17px]">{siteConfig.name}</span>
+            
           </a>
         </div>
         <div className="flex flex-1 items-center justify-center">
@@ -146,13 +149,32 @@ export default function ForgotPasswordForm({
             />
 
             {/* Heading */}
-            <div className="absolute left-1/2 top-[35%] w-full -translate-x-1/2 -translate-y-1/2 px-8">
-              <h1 className="text-center font-sora text-[58px] font-bold leading-tight tracking-wide text-white/80">
-                “Action Today,
-                <br />
-                <span>Success Tomorrow.”</span>
-              </h1>
+            <div className="absolute left-1/2 top-[32%] w-full -translate-x-1/2 -translate-y-1/2 px-8 ">
+            <div className="z-10 flex min-h-30 items-center justify-center">
+              <div
+                className={cn(
+                  "group rounded-full border border-black/5 bg-neutral-100/30 text-base text-white transition-all ease-in hover:cursor-pointer hover:bg-white/45 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800",
+                )}
+              >
+                <AnimatedShinyText className="inline-flex items-center justify-center px-4 py-1 transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
+                  <span className="text-white/80">✨ Introducing TalenzoX</span>
+                  <ChevronRight className="ml-1 size-3 text-white/80 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
+                </AnimatedShinyText>
+              </div>
             </div>
+
+            <div className="w-full flex items-center justify-center mb-4">
+              <span>
+                <img src="/TalenzoX_logo_white.png" alt="" width={100} />
+              </span>
+            </div>
+
+            <h1 className="text-center font-sora text-[58px] font-bold leading-tight tracking-wide text-white/80">
+              “Action Today,
+              <br />
+              <span>Success Tomorrow.”</span>
+            </h1>
+          </div>
 
             {/* Bottom Marquee */}
             <div className="absolute bottom-2 w-full">
