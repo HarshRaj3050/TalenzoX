@@ -36,8 +36,7 @@ export function NavMain({
   const pathname = usePathname()
 
   return (
-    <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+    <SidebarGroup >
       <SidebarMenu>
         {items.map((item) => {
           const isItemActive =
@@ -52,7 +51,7 @@ export function NavMain({
             <Collapsible
               key={item.title}
               defaultOpen={isItemActive}
-              className="group/collapsible"
+              className="group/collapsible pb-1"
               render={<SidebarMenuItem />}
             >
               <CollapsibleTrigger

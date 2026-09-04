@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Image from "next/image"
 
 import { NavMain } from "@/app/(main)/_components/nav-main"
 import { NavProjects } from "@/app/(main)/_components/nav-projects"
@@ -13,7 +14,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import { GalleryVerticalEndIcon, AudioLinesIcon, TerminalIcon, TerminalSquareIcon, BotIcon, BookOpenIcon, Settings2Icon, FrameIcon, PieChartIcon, MapIcon } from "lucide-react"
+import { AudioLinesIcon, TerminalIcon, TerminalSquareIcon, BotIcon, BookOpenIcon, Settings2Icon, FrameIcon, PieChartIcon, MapIcon, Settings, LayoutDashboard } from "lucide-react"
 
 // This is sample data.
 const data = {
@@ -26,7 +27,12 @@ const data = {
     {
       name: "TalenzoX",
       logo: (
-        <GalleryVerticalEndIcon
+        <Image
+          src="/TalenzoX_logo.png"
+          alt="TalenzoX logo"
+          width={24}
+          height={24}
+          className="size-6 object-contain "
         />
       ),
       plan: "Skill Development Application",
@@ -49,28 +55,6 @@ const data = {
     },
   ],
   navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: (
-        <TerminalSquareIcon
-        />
-      ),
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
     {
       title: "Models",
       url: "#",
@@ -149,11 +133,10 @@ const data = {
       ),
     },
     {
-      name: "Sales & Marketing",
-      url: "#",
+      name: "Settings",
+      url: "/settings",
       icon: (
-        <PieChartIcon
-        />
+        <Settings />
       ),
     },
     {
@@ -162,6 +145,15 @@ const data = {
       icon: (
         <MapIcon
         />
+      ),
+    },
+  ],
+  Routes: [
+    {
+      name: "Dashboard",
+      url: "/home",
+      icon: (
+        <LayoutDashboard />
       ),
     },
   ],
@@ -174,6 +166,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
+        <NavProjects projects={data.Routes} />
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
       </SidebarContent>
