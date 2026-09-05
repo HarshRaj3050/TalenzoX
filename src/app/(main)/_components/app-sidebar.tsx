@@ -125,14 +125,6 @@ const data = {
   ],
   projects: [
     {
-      name: "Design Engineering",
-      url: "#",
-      icon: (
-        <FrameIcon
-        />
-      ),
-    },
-    {
       name: "Settings",
       url: "/settings",
       icon: (
@@ -140,7 +132,7 @@ const data = {
       ),
     },
     {
-      name: "Travel",
+      name: "Premium membership",
       url: "#",
       icon: (
         <MapIcon
