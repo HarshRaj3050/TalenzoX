@@ -33,7 +33,7 @@ export function LoginForm({
     password: "",
   });
 
-  const supabase = getSupabaseBrowserClient();
+  const supabase = getSupabaseBrowserClient(audience);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 

@@ -1,12 +1,13 @@
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { SidebarTeacher } from "../../_components/ui/SideBar-teacher";
 
 export default async function TeacherDashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient("teacher");
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -15,5 +16,5 @@ export default async function TeacherDashboardLayout({
     redirect("/teacher/login");
   }
 
-  return children;
+  return <SidebarTeacher>{children}</SidebarTeacher>;
 }

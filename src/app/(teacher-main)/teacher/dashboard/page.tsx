@@ -1,7 +1,7 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export default async function TeacherDashboardPage() {
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient("teacher");
   const {
     data: { user },
   } = await supabase.auth.getUser();

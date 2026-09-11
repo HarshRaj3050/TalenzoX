@@ -6,7 +6,7 @@ export default async function TeacherLoginLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient("teacher");
   const {
     data: { user },
   } = await supabase.auth.getUser();
