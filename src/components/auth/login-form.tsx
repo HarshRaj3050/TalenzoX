@@ -19,10 +19,15 @@ import { FcGoogle } from "react-icons/fc";
 
 import api from "@/lib/axios";
 
+type LoginFormProps = React.ComponentProps<"form"> & {
+  audience?: "learner" | "teacher";
+};
+
 export function LoginForm({
   className,
+  audience = "learner",
   ...props
-}: React.ComponentProps<"form">) {
+}: LoginFormProps) {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -68,6 +73,24 @@ export function LoginForm({
         setErrors({
           auth: "Invalid email or password.",
         });
+        return;
+      }
+
+      const isTeacher = data.user?.user_metadata?.role === "teacher";
+      if (audience === "teacher") {
+        if (!isTeacher) {
+          await supabase.auth.signOut();
+          setErrors({ auth: "This account is not registered as a teacher." });
+          return;
+        }
+
+        router.replace("/teacher/dashboard");
+        return;
+      }
+
+      if (isTeacher) {
+        await supabase.auth.signOut();
+        setErrors({ auth: "Please sign in from the teacher portal." });
         return;
       }
 
@@ -122,7 +145,9 @@ export function LoginForm({
     >
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center ">
-          <h1 className="text-2xl font-bold ">Login to your account</h1>
+          <h1 className="text-2xl font-bold ">
+            {audience === "teacher" ? "Teacher sign in" : "Login to your account"}
+          </h1>
           <p className="text-sm text-balance text-muted-foreground">
             Enter your email below to login to your account
           </p>
@@ -175,27 +200,34 @@ export function LoginForm({
           </Button>
         </Field>
 
-        <FieldSeparator >Or continue with</FieldSeparator>
+        {audience === "learner" && (
+          <>
+            <FieldSeparator>Or continue with</FieldSeparator>
 
-        <Field>
-          <Button
-            variant="outline"
-            type="button"
-            disabled={loading}
-            onClick={handleGoogleLogin}
-            className="cursor-pointer"
+            <Field>
+              <Button
+                variant="outline"
+                type="button"
+                disabled={loading}
+                onClick={handleGoogleLogin}
+                className="cursor-pointer"
+              >
+                <FcGoogle />
+                Login with Google
+              </Button>
+            </Field>
+          </>
+        )}
+
+        <FieldDescription className="text-center">
+          Don&apos;t have an account?{" "}
+          <Link
+            href={audience === "teacher" ? "/teacher/signup" : "/auth/signup"}
+            className="underline underline-offset-4 corsor-pointer"
           >
-            <FcGoogle />
-            Login with Google
-          </Button>
-
-          <FieldDescription className="text-center">
-            Don&apos;t have an account?{" "}
-            <Link href="/auth/signup" className="underline underline-offset-4 corsor-pointer">
-              Sign up
-            </Link>
-          </FieldDescription>
-        </Field>
+            Sign up
+          </Link>
+        </FieldDescription>
       </FieldGroup>
     </form>
   );

@@ -18,7 +18,9 @@ import { Input } from "@/components/ui/input";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import { signupSchema } from "@/validation/userSchema";
 
-type SignupFormProps = React.ComponentProps<"form">;
+type SignupFormProps = React.ComponentProps<"form"> & {
+  audience?: "learner" | "teacher";
+};
 
 type FormErrors = {
   name?: string[];
@@ -27,7 +29,11 @@ type FormErrors = {
   confirmPassword?: string[];
 };
 
-export function SignupForm({ className, ...props }: SignupFormProps) {
+export function SignupForm({
+  className,
+  audience = "learner",
+  ...props
+}: SignupFormProps) {
   const router = useRouter();
   const supabase = getSupabaseBrowserClient();
 
@@ -80,8 +86,12 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
         options: {
           data: {
             name: result.data.name,
+            role: audience,
           },
-          emailRedirectTo: `${window.location.origin}/user-details`,
+          emailRedirectTo:
+            audience === "teacher"
+              ? `${window.location.origin}/auth/callback?next=/teacher/dashboard`
+              : `${window.location.origin}/user-details`,
         },
       });
 
@@ -95,6 +105,15 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
 
       if (!userId) {
         setServerError("Account creation failed. Please try again.");
+        return;
+      }
+
+      if (audience === "teacher") {
+        if (data.session) {
+          router.replace("/teacher/dashboard");
+        } else {
+          router.push("/teacher/login");
+        }
         return;
       }
 
@@ -157,7 +176,9 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
     >
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center">
-          <h1 className="text-2xl font-bold">Create your account</h1>
+          <h1 className="text-2xl font-bold">
+            {audience === "teacher" ? "Create teacher account" : "Create your account"}
+          </h1>
 
           <p className="text-sm text-balance text-muted-foreground">
             Fill in the form below to create your account
@@ -256,30 +277,33 @@ export function SignupForm({ className, ...props }: SignupFormProps) {
           </Button>
         </Field>
 
-        <FieldSeparator>Or continue with</FieldSeparator>
+        {audience === "learner" && (
+          <>
+            <FieldSeparator>Or continue with</FieldSeparator>
+            <Field>
+              <Button
+                variant="outline"
+                type="button"
+                disabled={loading}
+                onClick={handleGoogleSignup}
+                className="w-full"
+              >
+                <FcGoogle />
+                Sign up with Google
+              </Button>
+            </Field>
+          </>
+        )}
 
-        <Field>
-          <Button
-            variant="outline"
-            type="button"
-            disabled={loading}
-            onClick={handleGoogleSignup}
-            className="w-full"
+        <FieldDescription className="px-6 text-center">
+          Already have an account?{" "}
+          <Link
+            href={audience === "teacher" ? "/teacher/login" : "/auth/login"}
+            className="underline underline-offset-4 hover:text-primary"
           >
-            <FcGoogle />
-            Sign up with Google
-          </Button>
-
-          <FieldDescription className="px-6 text-center">
-            Already have an account?{" "}
-            <Link
-              href="/auth/login"
-              className="underline underline-offset-4 hover:text-primary"
-            >
-              Sign in
-            </Link>
-          </FieldDescription>
-        </Field>
+            Sign in
+          </Link>
+        </FieldDescription>
       </FieldGroup>
     </form>
   );

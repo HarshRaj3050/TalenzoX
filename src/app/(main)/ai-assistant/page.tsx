@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { AppSidebar } from "@/app/(main)/_components/app-sidebar";
