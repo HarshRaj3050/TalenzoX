@@ -21,9 +21,10 @@ export default function Footer() {
                 src="/video/Intro.mp4"
                 className="h-full w-full object-cover"
                 autoPlay
-
+                muted
                 loop
                 playsInline
+                preload="auto"
                 controls={false}
               />
             </div>
