@@ -34,17 +34,9 @@ export function Calendar({
   const today = React.useMemo(() => new Date(), [])
 
   const [currentMonth, setCurrentMonth] = React.useState<Date>(() => {
-    if (initialMonth) return initialMonth
-    if (selected) return new Date(selected.getFullYear(), selected.getMonth(), 1)
-    return new Date(today.getFullYear(), today.getMonth(), 1)
+    const baseDate = initialMonth ?? selected ?? new Date()
+    return new Date(baseDate.getFullYear(), baseDate.getMonth(), 1)
   })
-
-  // Sync currentMonth if initialMonth or selected changes externally
-  React.useEffect(() => {
-    if (selected) {
-      setCurrentMonth(new Date(selected.getFullYear(), selected.getMonth(), 1))
-    }
-  }, [selected])
 
   const monthNames = [
     "January", "February", "March", "April", "May", "June",
