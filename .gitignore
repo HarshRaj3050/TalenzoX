@@ -45,4 +45,3 @@ next-env.d.ts
 /supabase/migrations
 
 # image and video
-/public/video
