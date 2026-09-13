@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { SpinningText } from "@/components/ui/spinning-text";
 import { useRouter } from "next/navigation";
 import api from "@/lib/axios";
 import {
@@ -123,10 +124,15 @@ export default function PersonalizeJourneyForm() {
         typeof submissionError === "object" &&
         submissionError !== null &&
         "response" in submissionError &&
-        typeof (submissionError as { response?: { data?: { message?: string } } }).response?.data?.message === "string"
-          ? (submissionError as { response?: { data?: { message?: string } } }).response?.data?.message
+        typeof (
+          submissionError as { response?: { data?: { message?: string } } }
+        ).response?.data?.message === "string"
+          ? (submissionError as { response?: { data?: { message?: string } } })
+              .response?.data?.message
           : null;
-      setError(serverMsg || "We could not save your details. Please try again.");
+      setError(
+        serverMsg || "We could not save your details. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -174,6 +180,17 @@ export default function PersonalizeJourneyForm() {
               `,
           }}
         />
+
+        <div className="absolute right-18 top-18">
+          <SpinningText className="text-white/80">
+            learn more • practice more • grow more •
+          </SpinningText>
+        </div>
+
+        <div className="absolute left-6 top-10">
+          <h2 className="text-3xl text-white/80 ">TalenzoX</h2>
+        </div>
+
 
         {/* Form card */}
         <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-3xl items-center justify-center px-4 py-6 sm:px-6 sm:py-10">

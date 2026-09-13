@@ -158,7 +158,7 @@ const DummyContent = () => {
   return (
     <>
       <main>
-        <section className="relative isolate mx-auto min-h-312.5 w-full max-w-7xl overflow-hidden px-4 py-16 mt-[12vh] sm:min-h-[1150px] sm:px-8 md:min-h-[1120px]">
+        <section className="relative isolate mx-auto min-h-312.5 w-full max-w-7xl overflow-hidden px-4 py-16 mt-[12vh] sm:min-h-287.5 sm:px-8 md:min-h-280">
           <div className="relative z-10 flex flex-col items-center justify-center text-center">
             <h1 className="md:text-8xl text-[2.50rem] lg:w-[65%] w-full font-extrabold leading-none text-center">
               Education Beyond The{" "}

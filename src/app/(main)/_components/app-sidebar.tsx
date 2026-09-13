@@ -98,6 +98,10 @@ const data = {
           title: "Practice",
           url: "/sel/practice",
         },
+        {
+          title: "Student Feed",
+          url: "/sel/community",
+        },
       ],
     },
     {

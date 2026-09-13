@@ -16,7 +16,9 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import GradientPurpleBackground from "@/components/background/gradient-purple";
-import { Target } from "lucide-react";
+import { ArrowRight, Target } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 import { practices, kidChallenges } from "./_components/practice-data";
 import { ScenarioCard } from "./_components/scenario-card";

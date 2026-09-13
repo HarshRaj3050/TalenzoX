@@ -51,6 +51,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
     }
 
+    const authorName =
+      user.user_metadata?.full_name ||
+      user.user_metadata?.name ||
+      user.email?.split("@")[0] ||
+      "Student";
+
     const { data: report, error } = await supabase
       .from("feelings_weather_reports")
       .insert({
@@ -62,6 +68,7 @@ export async function POST(request: Request) {
         intensity: Number(intensity) || 3,
         note: note ? String(note).trim() : "",
         image_url: image_url ? String(image_url).trim() : "",
+        author_name: authorName,
       })
       .select("*")
       .single();
