@@ -45,7 +45,7 @@ export function CoursesTaking({ onAddCourse }: CoursesTakingProps) {
   const [filter, setFilter] = useState("Active");
 
   return (
-    <section className="bg-white p-5 sm:p-6 rounded-3xl border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)]">
+    <section className="bg-white hidden p-5 sm:p-6 rounded-3xl border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)]">
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-bold text-base text-[#141721]">Course You&apos;re Taking</h3>
 

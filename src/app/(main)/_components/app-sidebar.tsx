@@ -126,6 +126,28 @@ const data = {
         },
       ],
     },
+    {
+      title: "Behaviour",
+      url: "#",
+      icon: (
+        <Settings2Icon
+        />
+      ),
+      items: [
+        {
+          title: "Profile",
+          url: "/behaviour/profile",
+        },
+        {
+          title: "Video Playlist",
+          url: "/behaviour/playlist",
+        },
+        {
+          title: "Bahaviour Practice",
+          url: "/behaviour/practice",
+        },
+      ],
+    },
   ],
   projects: [
     {

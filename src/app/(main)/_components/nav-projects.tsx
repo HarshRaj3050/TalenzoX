@@ -32,8 +32,8 @@ export function NavProjects({
       
       <SidebarMenu className="mt-5">
         {projects.map((item) => (
-          <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton render={<a href={item.url} />}>
+          <SidebarMenuItem key={item.name} className="text-lg">
+            <SidebarMenuButton className="text-lg" render={<a href={item.url} />}>
               {item.icon}
               <span>{item.name}</span>
             </SidebarMenuButton>

@@ -122,7 +122,7 @@ export function DailySchedule() {
   };
 
   return (
-    <div className="bg-white p-5 rounded-3xl border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)] flex flex-col justify-between h-full">
+    <div className="bg-white hidden p-5 rounded-3xl border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)] flex flex-col justify-between h-full">
       <div>
         {/* Header with Title and Add '+' Button */}
         <div className="flex items-center justify-between mb-3">
