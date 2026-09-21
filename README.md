@@ -56,10 +56,6 @@ With a tailored dashboard for students and a specialized portal for teachers, Ta
 - **Daily Schedules & Deadlines**: Intuitive timeline widgets for assignments, classes, and tasks.
 - **Course Enrollment**: Enrolled subject management with progress meters and quick launch shortcuts.
 
-### 👨‍🏫 Dedicated Teacher Portal
-- **Educator Workspace**: Role-tailored dashboards to observe student milestones and class-wide engagement.
-- **Classroom Coordination**: Manage coursework, assess student trajectories, and provide targeted support.
-
 ### ⚡ Performance & State Management
 - **High-Performance Caching**: Powered by **Upstash Redis** for low-latency session and data management.
 - **Fluid UI & Micro-interactions**: Crafted with **Framer Motion**, **GSAP**, and **Base UI** components.
