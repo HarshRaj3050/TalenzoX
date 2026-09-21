@@ -25,8 +25,6 @@
 
 **TalenzoX** is an advanced educational technology platform designed to cultivate holistic growth in children and students. Going beyond conventional rote learning, TalenzoX combines **Social-Emotional Learning (SEL)**, **behavioral analytics**, **interactive voice tutoring**, and **AI-guided academic mentorship**.
 
-With a tailored dashboard for students and a specialized portal for teachers, TalenzoX bridges the gap between academic performance and emotional intelligence.
-
 ---
 
 ## ✨ Key Features
