@@ -92,7 +92,7 @@ export default function Page() {
                 />
               </div>
               <div className="relative z-10 w-full h-60 top-10">
-                <div className="absolute left-100 top-0 flex flex-col items-center">
+                <div className="absolute lg:left-100 left-0 top-0 flex flex-col items-center">
                   <p className="text-2xl sm:text-5xl  font-bold text-[#00084f]">
                     Behaviour Test
                   </p>
