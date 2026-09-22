@@ -25,8 +25,6 @@
 
 **TalenzoX** is an advanced educational technology platform designed to cultivate holistic growth in children and students. Going beyond conventional rote learning, TalenzoX combines **Social-Emotional Learning (SEL)**, **behavioral analytics**, **interactive voice tutoring**, and **AI-guided academic mentorship**.
 
-With a tailored dashboard for students and a specialized portal for teachers, TalenzoX bridges the gap between academic performance and emotional intelligence.
-
 ---
 
 ## ✨ Key Features
@@ -55,10 +53,6 @@ With a tailored dashboard for students and a specialized portal for teachers, Ta
 - **Activity & Study Hours Tracking**: Visual charts monitoring daily learning engagement and time allocation.
 - **Daily Schedules & Deadlines**: Intuitive timeline widgets for assignments, classes, and tasks.
 - **Course Enrollment**: Enrolled subject management with progress meters and quick launch shortcuts.
-
-### 👨‍🏫 Dedicated Teacher Portal
-- **Educator Workspace**: Role-tailored dashboards to observe student milestones and class-wide engagement.
-- **Classroom Coordination**: Manage coursework, assess student trajectories, and provide targeted support.
 
 ### ⚡ Performance & State Management
 - **High-Performance Caching**: Powered by **Upstash Redis** for low-latency session and data management.
