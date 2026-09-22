@@ -25,6 +25,10 @@
 
 **TalenzoX** is an advanced educational technology platform designed to cultivate holistic growth in children and students. Going beyond conventional rote learning, TalenzoX combines **Social-Emotional Learning (SEL)**, **behavioral analytics**, **interactive voice tutoring**, and **AI-guided academic mentorship**.
 
+<p align="center">
+  <img src="public/landingPage.png" alt="TalenzoX landing page preview" width="900" />
+</p>
+
 ---
 
 ## ✨ Key Features
@@ -57,6 +61,10 @@
 ### ⚡ Performance & State Management
 - **High-Performance Caching**: Powered by **Upstash Redis** for low-latency session and data management.
 - **Fluid UI & Micro-interactions**: Crafted with **Framer Motion**, **GSAP**, and **Base UI** components.
+
+<p align="center">
+  <img src="public/dashboard_readme.png" alt="TalenzoX dashboard preview" width="900" style="margin-top: 24px;" />
+</p>
 
 ---
 

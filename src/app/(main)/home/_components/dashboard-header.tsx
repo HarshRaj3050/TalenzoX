@@ -24,11 +24,11 @@ export function DashboardHeader({
     <header className="relative overflow-hidden max-h-60 min-h-60 rounded-[30px] border border-white/50 bg-[#8ed9ff] shadow-[0_20px_45px_-20px_rgba(12,34,54,0.45)]">
       <div className="absolute inset-0">
         <Image
-          src="/dashboard/dashboard_nav_img.png"
+          src="/dashboard/dashboard_nav.png"
           alt="Welcome kids illustration"
           fill
           priority
-          className="h-full w-full object-cover object-top"
+          className="h-full w-full object-cover object-center"
         />
       </div>
 
@@ -58,7 +58,7 @@ export function DashboardHeader({
         </div>
 
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-end  ">
-          <div className="max-w-xl absolute left-[19vw] top-10">
+          <div className="max-w-xl absolute left-[25vw] top-10">
             <h1
               className={`${balsamiq.className} text-3xl font-black leading-[0.9] tracking-[-0.04em] text-[#00084f] drop-shadow-[0_4px_10px_rgba(34,58,89,0.16)] sm:text-5xl lg:text-6xl`}
             >
@@ -68,7 +68,7 @@ export function DashboardHeader({
               </span>
             </h1>
             <p
-              className={`${balsamiq.className} mt-3 pl-5 max-w-md text-base font-bold text-[#005cd4] sm:text-lg`}
+              className={`${balsamiq.className} hidden mt-3 pl-5 max-w-md text-base font-bold text-[#121212] sm:text-lg`}
             >
               Ready to learn something amazing today?
             </p>
