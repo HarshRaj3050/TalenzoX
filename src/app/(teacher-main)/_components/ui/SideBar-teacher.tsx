@@ -235,15 +235,15 @@ function CollapsibleSubGroup({
 export function SidebarTeacher({ children }: { children?: ReactNode }) {
   return (
     <SidebarProvider>
-      <Sidebar className="bg-white">
+      <Sidebar className="">
         <SidebarContent>
           <div className="flex items-center gap-3 border-b px-4 py-4">
             <Image
-              src="/TalenzoX_logo.png"
+              src="/TalenzoX_logo_white.png"
               alt="TalenzoX"
               width={36}
               height={36}
-              className="h-9 w-9 object-contain"
+              className="h-9 w-9 object-contain "
             />
             <span className="text-md font-semibold leading-tight flex flex-col items-center">
               TalenzoX <div className="text-sm">Teacher Dashboard</div> 

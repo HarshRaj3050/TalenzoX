@@ -28,11 +28,11 @@ const data = {
       name: "TalenzoX",
       logo: (
         <Image
-          src="/TalenzoX_logo.png"
+          src="/TalenzoX_logo_white.png"
           alt="TalenzoX logo"
-          width={24}
-          height={24}
-          className="size-6 object-contain "
+          width={36}
+          height={36}
+          className="size-12 object-contain "
         />
       ),
       plan: "Skill Development Application",
@@ -78,13 +78,13 @@ const data = {
       ],
     },
     {
-      title: "Social Emotional Learning",
+      title: "SEL",
       url: "#",
       icon: (
         <BookOpenIcon
         />
       ),
-      isActive: true,
+      isActive: false,
       items: [
         {
           title: "Profile",
@@ -158,7 +158,7 @@ const data = {
       ),
     },
     {
-      name: "Premium membership",
+      name: "Premium feature",
       url: "#",
       icon: (
         <MapIcon
