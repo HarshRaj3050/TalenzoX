@@ -14,7 +14,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import { AudioLinesIcon, TerminalIcon, TerminalSquareIcon, BotIcon, BookOpenIcon, Settings2Icon, FrameIcon, PieChartIcon, MapIcon, Settings, LayoutDashboard } from "lucide-react"
+import { AudioLinesIcon, TerminalIcon, TerminalSquareIcon, BotIcon, Settings2Icon, FrameIcon, PieChartIcon, MapIcon, Settings, LayoutDashboard } from "lucide-react"
 
 // This is sample data.
 const data = {
@@ -30,28 +30,12 @@ const data = {
         <Image
           src="/TalenzoX_logo_white.png"
           alt="TalenzoX logo"
-          width={36}
-          height={36}
+          width={32}
+          height={32}
           className="size-12 object-contain "
         />
       ),
       plan: "Skill Development Application",
-    },
-    {
-      name: "Acme Corp.",
-      logo: (
-        <AudioLinesIcon
-        />
-      ),
-      plan: "TalenzoX",
-    },
-    {
-      name: "Evil Corp.",
-      logo: (
-        <TerminalIcon
-        />
-      ),
-      plan: "Free",
     },
   ],
   navMain: [
@@ -74,33 +58,6 @@ const data = {
         {
           title: "Schedule Maker",
           url: "#",
-        },
-      ],
-    },
-    {
-      title: "SEL",
-      url: "#",
-      icon: (
-        <BookOpenIcon
-        />
-      ),
-      isActive: false,
-      items: [
-        {
-          title: "Profile",
-          url: "/sel/profile",
-        },
-        {
-          title: "Learning",
-          url: "/sel/learning",
-        },
-        {
-          title: "Practice",
-          url: "/sel/practice",
-        },
-        {
-          title: "Student Feed",
-          url: "/sel/community",
         },
       ],
     },

@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { CloudSun, Code2, Camera, Star } from "lucide-react";
+import { Code2, Camera, Star } from "lucide-react";
 
 export interface ActivityCardData {
   id: string;
@@ -19,16 +19,6 @@ export interface ActivityCardData {
 const ACTIVITIES: ActivityCardData[] = [
   {
     id: "1",
-    title: "The Feelings Weather Report",
-    lessons: "Interactive",
-    rate: 5.0,
-    type: "SEL Practice",
-    iconBg: "bg-[#ffece4]",
-    icon: <CloudSun className="w-5 h-5 text-[#f97316]" />,
-    href: "/sel/practice/feelings-weather",
-  },
-  {
-    id: "2",
     title: "Usability Testing",
     lessons: "15 Lessons",
     rate: 5.0,
@@ -37,7 +27,7 @@ const ACTIVITIES: ActivityCardData[] = [
     icon: <Code2 className="w-5 h-5 text-[#65a30d]" />,
   },
   {
-    id: "3",
+    id: "2",
     title: "Photography",
     lessons: "8 Lessons",
     rate: 4.6,

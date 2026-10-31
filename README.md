@@ -10,11 +10,11 @@
 ![Supabase](https://img.shields.io/badge/Supabase-Auth_&_DB-3ECF8E?style=for-the-badge&logo=supabase)
 
 <p align="center">
-  <strong>An Intelligent Learning, Social-Emotional Development & AI-Powered Mentorship Platform</strong>
+  <strong>An Intelligent Learning & AI-Powered Mentorship Platform</strong>
 </p>
 
 <p align="center">
-  Empowering young learners, educators, and parents through situational behavioral assessments, real-time voice coaching, and personalized multi-agent learning pathways.
+  Empowering young learners, educators, and parents through real-time voice coaching and personalized multi-agent learning pathways.
 </p>
 
 </div>
@@ -23,7 +23,7 @@
 
 ## 🌟 Overview
 
-**TalenzoX** is an advanced educational technology platform designed to cultivate holistic growth in children and students. Going beyond conventional rote learning, TalenzoX combines **Social-Emotional Learning (SEL)**, **behavioral analytics**, **interactive voice tutoring**, and **AI-guided academic mentorship**.
+**TalenzoX** is an advanced educational technology platform designed to cultivate holistic growth in children and students. Going beyond conventional rote learning, TalenzoX combines **behavioral analytics**, **interactive voice tutoring**, and **AI-guided academic mentorship**.
 
 <p align="center">
   <img src="public/landingPage.png" alt="TalenzoX landing page preview" width="900" />
@@ -47,11 +47,6 @@
 - **LangChain & LangGraph Powered**: Architecture capable of coordinating specialized agents (Chat, Search, Summary, and Behaviour).
 - **Live Web Research**: Real-time factual query expansion using **Tavily Search API**.
 - **High-Speed Inference**: Accelerated LLM responses leveraging **Groq** (`qwen/qwen3.8-27b`) with fallback support for **Google Gemini**.
-
-### 💖 Social-Emotional Learning (SEL) Hub
-- **Curated Modules**: Guided lessons on empathy, self-regulation, communication, and emotional resilience.
-- **Real-World Practice**: Scenario roleplay to build interpersonal skills.
-- **Community Forum**: Safe collaborative space for sharing ideas, feedback, and mutual growth.
 
 ### 📊 Modern Student Dashboard
 - **Activity & Study Hours Tracking**: Visual charts monitoring daily learning engagement and time allocation.
@@ -101,10 +96,9 @@ talenzo-x/
 │   │   │   ├── behaviour_test/    # Interactive scenario-based evaluation
 │   │   │   ├── experiment/        # Hands-on interactive experiments
 │   │   │   ├── home/              # Primary student dashboard
-│   │   │   ├── sel/               # Social-Emotional Learning suite
 │   │   │   └── user-details/      # Profile configuration & preferences
 │   │   ├── (teacher-main)/ # Teacher workspace and class monitoring
-│   │   ├── api/            # Route handlers (AI agents, user details, redis, sel)
+│   │   ├── api/            # Route handlers (AI agents, user details, redis)
 │   │   ├── auth/           # Supabase SSR authentication (login, signup, reset)
 │   │   ├── globals.css     # Global styles & Tailwind v4 theme definitions
 │   │   └── layout.tsx      # Root application layout
