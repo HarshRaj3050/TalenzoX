@@ -41,11 +41,28 @@ export function NavMain({
         {items.map((item) => {
           const isItemActive =
             item.isActive ||
+            (item.url !== "#" &&
+              (pathname === item.url || pathname.startsWith(`${item.url}/`))) ||
             Boolean(
               item.items?.some(
                 (subItem) => subItem.url !== "#" && pathname.startsWith(subItem.url)
               )
             )
+
+          if (!item.items?.length) {
+            return (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton
+                  render={<Link href={item.url} />}
+                  isActive={isItemActive}
+                  tooltip={item.title}
+                >
+                  {item.icon}
+                  <span>{item.title}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            )
+          }
 
           return (
             <Collapsible
@@ -87,4 +104,3 @@ export function NavMain({
     </SidebarGroup>
   )
 }
-

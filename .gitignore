@@ -41,7 +41,9 @@ yarn-error.log*
 next-env.d.ts
 
 # database
-/supabase
-/supabase/migrations
+/supabase/*
+!/supabase/migrations/
+supabase/migrations/*
+/supabase/migrations/202611010001_showcase_posts.sql
 
 # image and video

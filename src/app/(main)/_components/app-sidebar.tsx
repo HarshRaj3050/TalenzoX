@@ -14,7 +14,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import { AudioLinesIcon, TerminalIcon, TerminalSquareIcon, BotIcon, Settings2Icon, FrameIcon, PieChartIcon, MapIcon, Settings, LayoutDashboard } from "lucide-react"
+import { AudioLinesIcon, TerminalIcon, TerminalSquareIcon, BotIcon, Settings2Icon, FrameIcon, PieChartIcon, MapIcon, Settings, LayoutDashboard, Presentation } from "lucide-react"
 
 // This is sample data.
 const data = {
@@ -58,6 +58,25 @@ const data = {
         {
           title: "Schedule Maker",
           url: "#",
+        },
+      ],
+    },
+    {
+      title: "Showcase",
+      url: "#",
+      icon: <Presentation />,
+      items: [
+        {
+          title: "Profile",
+          url: "/showcase/profile",
+        },
+        {
+          title: "Feed",
+          url: "/showcase/feed",
+        },
+        {
+          title: "Upload",
+          url: "/showcase/upload",
         },
       ],
     },
