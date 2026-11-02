@@ -1,12 +1,21 @@
 import { ChatGroq } from "@langchain/groq"
 // import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
 
-const groq = new ChatGroq({
+const modelConfig = {
     apiKey: process.env.GROQ_API_KEY,
     model: "qwen/qwen3.8-27b",
     temperature: 0,
-    maxTokens: 1024,
     maxRetries: 0,
+}
+
+const groq = new ChatGroq({
+    ...modelConfig,
+    maxTokens: 1024,
+})
+
+const roadmapModel = new ChatGroq({
+    ...modelConfig,
+    maxTokens: 4096,
 })
 
 /* 
@@ -26,6 +35,8 @@ export const getModel =  async (agent: string)=>{
             return groq;
         case "behaviour":
             return groq;
+        case "roadmap":
+            return roadmapModel;
         default:
             return groq;
     }

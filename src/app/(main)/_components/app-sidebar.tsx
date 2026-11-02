@@ -14,7 +14,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import { AudioLinesIcon, TerminalIcon, TerminalSquareIcon, BotIcon, Settings2Icon, FrameIcon, PieChartIcon, MapIcon, Settings, LayoutDashboard, Presentation } from "lucide-react"
+import { AudioLinesIcon, TerminalIcon, TerminalSquareIcon, BotIcon, Settings2Icon, FrameIcon, PieChartIcon, MapIcon, Settings, LayoutDashboard, Presentation, GraduationCap } from "lucide-react"
 
 // This is sample data.
 const data = {
@@ -58,6 +58,21 @@ const data = {
         {
           title: "Schedule Maker",
           url: "#",
+        },
+      ],
+    },
+    {
+      title: "Learning",
+      url: "#",
+      icon: <GraduationCap />,
+      items: [
+        {
+          title: "Learning Profile",
+          url: "/learning-profile",
+        },
+        {
+          title: "Roadmap",
+          url: "/roadmap",
         },
       ],
     },
